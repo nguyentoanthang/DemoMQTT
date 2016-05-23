@@ -13,7 +13,6 @@ class ControlView: UIViewController {
     var isShow: Bool = false
     var isChooseDevice: Bool = false
     var controls:[UIView] = []
-    var background: UIImage!
     
     @IBOutlet weak var chooseDeviceBtn: DCBorderedButton!
     @IBOutlet weak var picker: UIPickerView!
@@ -26,19 +25,26 @@ class ControlView: UIViewController {
     @IBOutlet weak var controlView: UIView!
     let blurEffect = UIBlurEffect(style: .Light)
     let blurView = UIVisualEffectView()
+    let blackView = UIView()
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        // config black View
+        // config the view
+        blackView.frame = UIScreen.mainScreen().bounds
+        blackView.backgroundColor = UIColor.blackColor()
+        blackView.alpha = 0.0
         
         controlView.hidden = true
-        let backgroundImageView = UIImageView(image: background)
-        backgroundImageView.frame = self.view.frame
-        self.view.insertSubview(backgroundImageView, atIndex: 0)
+        let backgroundImageView = UIImageView(image: currentScene.image)
+        backgroundImageView.frame = UIScreen.mainScreen().bounds
+        self.view.addSubview(backgroundImageView)
         
         blurView.effect = blurEffect
-        blurView.frame = self.view.frame
+        blurView.frame = UIScreen.mainScreen().bounds
+        self.view.addSubview(blurView)
         
         // add tap gesture recognite to blur view
         let tap = UITapGestureRecognizer(target: self, action: #selector(ControlView.blurViewTap(_:)))
@@ -47,6 +53,7 @@ class ControlView: UIViewController {
         
         self.navigationController?.navigationBar.barTintColor = UIColor.clearColor()
         
+        // set translucent navigation bar
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: .Default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.translucent = true
@@ -62,21 +69,23 @@ class ControlView: UIViewController {
         
         self.configView.transform = CGAffineTransformMakeScale(1, 1)
         self.configView.hidden = false
-        UIView.animateWithDuration(0.2, animations: {self.configView.transform = CGAffineTransformMakeScale(0.1, 0.1)}, completion: {conplete in self.configView.hidden = true})
-        
-        
+        UIView.animateWithDuration(0.2, animations: {
+            self.blackView.alpha = 0.0
+            self.configView.transform = CGAffineTransformMakeScale(0.1, 0.1)}, completion: {
+                conplete in
+                self.blackView.removeFromSuperview()
+                self.configView.hidden = true})   
         
     }
     
-    
+    // this function show a choose device View at bottom of screen
     @IBAction func chooseDevice(sender: AnyObject) {
+        
         
         if isChooseDevice == false {
             isChooseDevice = true
             deviceView.frame = CGRectMake(0, UIScreen.mainScreen().bounds.size.height, UIScreen.mainScreen().bounds.size.width, 200)
             deviceView.hidden = false
-            
-            
             
             UIView.animateWithDuration(0.2, animations: {
                 self.configView.transform = CGAffineTransformMakeTranslation(0, -100)
@@ -97,7 +106,10 @@ class ControlView: UIViewController {
         
         self.configView.transform = CGAffineTransformMakeScale(1, 1)
         self.configView.hidden = false
-        UIView.animateWithDuration(0.2, animations: {self.configView.transform = CGAffineTransformMakeScale(0.1, 0.1)}, completion: {conplete in self.configView.hidden = true})
+        UIView.animateWithDuration(0.2, animations: {
+            self.blackView.alpha = 0.0
+            self.configView.transform = CGAffineTransformMakeScale(0.1, 0.1)}, completion: {conplete in self.configView.hidden = true
+        self.blackView.removeFromSuperview()})
         
     }
     
@@ -143,9 +155,17 @@ class ControlView: UIViewController {
         let 💛 = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
         
         let 💚 = UIAlertAction(title: "Config", style: .Default) { (action) in
+        
+            self.view.addSubview(self.blackView)
+            //self.blackView.layer.zPosition = 1
+            
+            self.view.bringSubviewToFront(self.configView)
+            self.view.bringSubviewToFront(self.deviceView)
                 self.configView.transform = CGAffineTransformMakeScale(0.1, 0.1)
                 self.configView.hidden = false
-                UIView.animateWithDuration(0.2, animations: {self.configView.transform = CGAffineTransformMakeScale(1, 1)})
+                UIView.animateWithDuration(0.2, animations:
+                    {self.blackView.alpha = 0.7
+                    self.configView.transform = CGAffineTransformMakeScale(1, 1)})
             
 //            self.configView.center = CGPointMake(UIScreen.mainScreen().bounds.size.width/2, UIScreen.mainScreen().bounds.size.height/2)
 //            

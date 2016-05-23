@@ -7,15 +7,29 @@
 //
 
 import UIKit
+import Parse
 
 class SettingTableViewController: UITableViewController {
 
+    @IBOutlet weak var avatar: UIImageView!
+    @IBOutlet weak var name: UILabel!
+    
+    @IBOutlet weak var email: UILabel!
     var profileCell = "profileCell"
     var actionCell = "actionCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.tableView.backgroundColor = UIColor.colorFromHex("#d3ffce")
+        self.navigationController?.navigationBar.barTintColor = UIColor.colorFromHex("#53802d")
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+        avatar.layer.cornerRadius = avatar.frame.width/2
+        avatar.clipsToBounds = true
+        name.text = PFUser.currentUser()?["Name"] as? String
+        email.text = PFUser.currentUser()?.email
+        
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 

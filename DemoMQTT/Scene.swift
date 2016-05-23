@@ -13,7 +13,7 @@ class Scene: PFObject, PFSubclassing {
     
     @NSManaged var name: String?
     @NSManaged var email: String?
-    @NSManaged var image: UIImage?
+    var image: UIImage?
     
     convenience init(name: String, email: String) {
         self.init()

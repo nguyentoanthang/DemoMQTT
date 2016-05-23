@@ -12,9 +12,22 @@ import ParseUI
 class SceneCell: UICollectionViewCell {
 
     @IBOutlet weak var nameScene: UILabel!
-
     
     @IBOutlet weak var image: PFImageView!
+    
+    var currentScene: Scene! {
+        didSet {
+            if currentScene["Image"] as? PFFile == nil {
+                
+            } else {
+                image.file = currentScene["Image"] as? PFFile
+                image.loadInBackground({ (image: UIImage?, error: NSError?) in
+                    self.currentScene.image = image
+                })
+                nameScene.text = currentScene["Name"] as? String
+            }
+        }
+    }
     
     var icon: UIImage? {
         didSet {
@@ -25,17 +38,6 @@ class SceneCell: UICollectionViewCell {
     var name: String? {
         didSet {
             nameScene.text = name
-        }
-    }
-    
-    var img: PFFile? {
-        didSet {
-            if img == nil {
-                
-            } else {
-                image.file = img
-                image.loadInBackground()
-            }
         }
     }
     

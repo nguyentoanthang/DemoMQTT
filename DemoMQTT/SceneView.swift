@@ -174,8 +174,7 @@ class SceneView: UICollectionViewController, UIGestureRecognizerDelegate {
         
         let scene: Scene? = SceneArray.array[indexPath.row]
         if let scene = scene {
-            cell.name = scene["Name"] as? String
-            cell.img = scene["Image"] as? PFFile
+            cell.currentScene = scene
         }
         
         // Configure the cell
