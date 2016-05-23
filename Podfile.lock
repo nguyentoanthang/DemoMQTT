@@ -1,0 +1,28 @@
+PODS:
+  - AsyncSwift (1.7.2)
+  - CocoaAsyncSocket (7.4.3):
+    - CocoaAsyncSocket/All (= 7.4.3)
+  - CocoaAsyncSocket/All (7.4.3):
+    - CocoaAsyncSocket/GCD
+    - CocoaAsyncSocket/RunLoop
+  - CocoaAsyncSocket/GCD (7.4.3)
+  - CocoaAsyncSocket/RunLoop (7.4.3)
+  - CocoaMQTT (1.0.5):
+    - CocoaAsyncSocket (~> 7.4.2)
+    - MSWeakTimer (~> 1.1.0)
+  - MBProgressHUD (0.9.2)
+  - MSWeakTimer (1.1.0)
+
+DEPENDENCIES:
+  - AsyncSwift
+  - CocoaMQTT
+  - MBProgressHUD (~> 0.9.0)
+
+SPEC CHECKSUMS:
+  AsyncSwift: 46a78bceb11f0e5bb52747f740d9692ec78d2d7c
+  CocoaAsyncSocket: a18c75dca4b08723628a0bacca6e94803d90be91
+  CocoaMQTT: 31dfd6180af49cd82852d739e83b4ef0fa74f199
+  MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
+  MSWeakTimer: 9426150f933b80ed3acf3f6d228e4b61f0e303c8
+
+COCOAPODS: 0.39.0
