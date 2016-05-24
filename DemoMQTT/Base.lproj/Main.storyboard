@@ -663,6 +663,7 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rmn-X4-cu0" customClass="DCBorderedButton" customModule="DemoMQTT" customModuleProvider="target">
                                         <rect key="frame" x="57" y="7" width="45" height="45"/>
+                                        <gestureRecognizers/>
                                         <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                         <state key="normal" title="?">
                                             <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -686,6 +687,7 @@
                                         </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="addButton:" destination="pZU-JI-r4l" eventType="touchUpInside" id="W3v-4T-Snu"/>
+                                            <outletCollection property="gestureRecognizers" destination="ReB-Z6-vIp" appends="YES" id="Zpk-nt-fwd"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nxP-J2-qTB">
@@ -857,6 +859,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wlM-AP-Brc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="ReB-Z6-vIp">
+                    <connections>
+                        <action selector="handelPan:" destination="pZU-JI-r4l" id="7O9-CN-mtm"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1577" y="-1308"/>
         </scene>

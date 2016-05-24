@@ -13,6 +13,7 @@ class ControlView: UIViewController {
     var isShow: Bool = false
     var isChooseDevice: Bool = false
     var controls:[UIView] = []
+    weak var buttonTemp: ButtonSend!
     
     @IBOutlet weak var chooseDeviceBtn: DCBorderedButton!
     @IBOutlet weak var picker: UIPickerView!
@@ -23,7 +24,7 @@ class ControlView: UIViewController {
     
     @IBOutlet weak var configView: UIView!
     @IBOutlet weak var controlView: UIView!
-    let blurEffect = UIBlurEffect(style: .Light)
+    let blurEffect = UIBlurEffect(style: .Dark)
     let blurView = UIVisualEffectView()
     let blackView = UIView()
 
@@ -78,9 +79,72 @@ class ControlView: UIViewController {
         
     }
     
+    // this function handle pan gesture on button
+    @IBAction func handelPan(sender: UIPanGestureRecognizer) {
+        
+        if sender.state == UIGestureRecognizerState.Began {
+            let button = ButtonSend(type: UIButtonType.System)
+            button.customInit()
+            button.setTitle("?", forState: UIControlState.Normal)
+            // create a shadow of this button
+            button.frame = CGRectMake((sender.view?.frame.origin.x)!, self.controlView.frame.origin.y + (sender.view?.frame.origin.y)!, 45, 45)
+            button.alpha = 0.5
+            self.view.addSubview(button)
+            print("began")
+            buttonTemp = button
+        }
+        
+        if sender.state == UIGestureRecognizerState.Changed {
+            print("change")
+            let translation = sender.translationInView(self.controlView)
+ 
+            buttonTemp.center = CGPoint(x: buttonTemp.center.x + translation.x, y: buttonTemp.center.y + translation.y)
+            
+            sender.setTranslation(CGPointZero, inView: self.controlView)
+            
+            if buttonTemp.center.y < self.controlView.frame.origin.y {
+                buttonTemp.alpha = 1.0
+                buttonTemp.frame.size = CGSizeMake(50, 50)
+            } else {
+                buttonTemp.alpha = 0.5
+                buttonTemp.frame.size = CGSizeMake(45, 45)
+            }
+        }
+        
+        if sender.state == UIGestureRecognizerState.Ended {
+            
+            if buttonTemp.center.y < self.controlView.frame.origin.y {
+                let longpress = UILongPressGestureRecognizer(target: self, action: #selector(ControlView.long(_:)))
+                
+                let pan = UIPanGestureRecognizer(target: self, action: #selector(self.pan(_:)))
+                
+                let tap = UITapGestureRecognizer(target: self, action: #selector(ControlView.handelTap(_:)))
+                tap.delegate = self
+                tap.requireGestureRecognizerToFail(longpress)
+                
+                buttonTemp.addGestureRecognizer(tap)
+                buttonTemp.addGestureRecognizer(longpress)
+                buttonTemp.addGestureRecognizer(pan)
+                
+                controls.append(buttonTemp)
+                
+                let y = (self.navigationController?.navigationBar.frame.origin.y)! + (self.navigationController?.navigationBar.frame.height)!
+
+                if buttonTemp.frame.origin.y < y {
+                    buttonTemp.center = CGPoint(x: buttonTemp.center.x, y: y + buttonTemp.frame.height/2)
+                }
+
+            } else {
+                buttonTemp.removeFromSuperview()
+            }
+            
+            buttonTemp = nil
+        }
+        
+    }
+    
     // this function show a choose device View at bottom of screen
     @IBAction func chooseDevice(sender: AnyObject) {
-        
         
         if isChooseDevice == false {
             isChooseDevice = true
@@ -207,6 +271,15 @@ class ControlView: UIViewController {
         }
         
         if sender.state == UIGestureRecognizerState.Ended {
+            
+            let y = (self.navigationController?.navigationBar.frame.origin.y)! + (self.navigationController?.navigationBar.frame.height)!
+            
+            if let view = sender.view {
+                if view.frame.origin.y < y {
+                    view.center = CGPoint(x: view.center.x, y: y + view.frame.height/2)
+                }
+            }
+            
             print("end")
         }
         let translation = sender.translationInView(self.view)
