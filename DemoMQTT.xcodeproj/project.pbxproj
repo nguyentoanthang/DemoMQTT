@@ -56,6 +56,9 @@
 		0441E3FA1CCFCA5B00A13CF9 /* ControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0441E3F91CCFCA5B00A13CF9 /* ControlView.swift */; };
 		0441E3FE1CCFD0C700A13CF9 /* SceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0441E3FD1CCFD0C700A13CF9 /* SceneView.swift */; };
 		0441E4001CCFD23500A13CF9 /* SceneCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0441E3FF1CCFD23500A13CF9 /* SceneCell.swift */; };
+		04448BE51CF57A0000F1085D /* TimeAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04448BE41CF57A0000F1085D /* TimeAction.swift */; };
+		04448BE91CF57A9500F1085D /* ActionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04448BE81CF57A9500F1085D /* ActionTableViewController.swift */; };
+		04448BEB1CF5806B00F1085D /* TimeActionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04448BEA1CF5806B00F1085D /* TimeActionTableViewCell.swift */; };
 		049884501CD3827B00187B06 /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0498844F1CD3827B00187B06 /* SignupView.swift */; };
 		04BF65E61CE5AAA600BF47FE /* Control.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BF65E51CE5AAA600BF47FE /* Control.swift */; };
 		04BF65E81CE5CE4C00BF47FE /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BF65E71CE5CE4C00BF47FE /* ParseUI.framework */; };
@@ -119,6 +122,9 @@
 		0441E3F91CCFCA5B00A13CF9 /* ControlView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlView.swift; sourceTree = "<group>"; };
 		0441E3FD1CCFD0C700A13CF9 /* SceneView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneView.swift; sourceTree = "<group>"; };
 		0441E3FF1CCFD23500A13CF9 /* SceneCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneCell.swift; sourceTree = "<group>"; };
+		04448BE41CF57A0000F1085D /* TimeAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeAction.swift; sourceTree = "<group>"; };
+		04448BE81CF57A9500F1085D /* ActionTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionTableViewController.swift; sourceTree = "<group>"; };
+		04448BEA1CF5806B00F1085D /* TimeActionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeActionTableViewCell.swift; sourceTree = "<group>"; };
 		0498844F1CD3827B00187B06 /* SignupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
 		04BF65E51CE5AAA600BF47FE /* Control.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Control.swift; sourceTree = "<group>"; };
 		04BF65E71CE5CE4C00BF47FE /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
@@ -212,6 +218,9 @@
 				041D8BBA1CE2E29C00DCF382 /* UIColor+Convenience.swift */,
 				041D8BBC1CE2E8FE00DCF382 /* SceneArray.swift */,
 				04BF65E51CE5AAA600BF47FE /* Control.swift */,
+				04448BE41CF57A0000F1085D /* TimeAction.swift */,
+				04448BE81CF57A9500F1085D /* ActionTableViewController.swift */,
+				04448BEA1CF5806B00F1085D /* TimeActionTableViewCell.swift */,
 			);
 			path = DemoMQTT;
 			sourceTree = "<group>";
@@ -408,6 +417,7 @@
 				04245E0C1CD0669700FD4DEA /* IRDevice.swift in Sources */,
 				0441E4001CCFD23500A13CF9 /* SceneCell.swift in Sources */,
 				0441E3F81CCFC67F00A13CF9 /* AnimationHelper.swift in Sources */,
+				04448BE51CF57A0000F1085D /* TimeAction.swift in Sources */,
 				043D538E1CC93C5200672F26 /* LoginViewController.swift in Sources */,
 				04245E0E1CD066B600FD4DEA /* DTHDevice.swift in Sources */,
 				042C289E1CE088E300C70491 /* DCCircleView.swift in Sources */,
@@ -431,6 +441,7 @@
 				043D53A01CC94BAE00672F26 /* DCBorderedTextField.swift in Sources */,
 				0441E3F21CCFB4A100A13CF9 /* Scene.swift in Sources */,
 				04245E121CD0703200FD4DEA /* ButtonSend.swift in Sources */,
+				04448BEB1CF5806B00F1085D /* TimeActionTableViewCell.swift in Sources */,
 				042C288F1CE05D0900C70491 /* ConfigLabelView.swift in Sources */,
 				0426D7461CC9D7B600183FA6 /* Device.swift in Sources */,
 				0441E3FA1CCFCA5B00A13CF9 /* ControlView.swift in Sources */,
@@ -443,6 +454,7 @@
 				04BF65E61CE5AAA600BF47FE /* Control.swift in Sources */,
 				04214E921CC486B300F8FE0C /* ViewController.swift in Sources */,
 				049884501CD3827B00187B06 /* SignupView.swift in Sources */,
+				04448BE91CF57A9500F1085D /* ActionTableViewController.swift in Sources */,
 				04214E901CC486B300F8FE0C /* AppDelegate.swift in Sources */,
 				043D53A21CC94BAE00672F26 /* DCMandatoryNumberTextField.swift in Sources */,
 			);
