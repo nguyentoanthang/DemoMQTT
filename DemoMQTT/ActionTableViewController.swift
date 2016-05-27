@@ -11,7 +11,7 @@ import UIKit
 class ActionTableViewController: UITableViewController {
 
     var selectedIndexPath: NSIndexPath?
-    var indexPathArr: [NSIndexPath] = []
+    
     
     var actions: [TimeAction] = []
     
@@ -23,10 +23,10 @@ class ActionTableViewController: UITableViewController {
                 return
             }
             
-            var action = TimeAction(name: _name)
+            var action = TimeAction(name: _name, time: "00:00 AM")
             
             self.actions.append(action)
-            self.indexPathArr.removeAll()
+            
             self.tableView.reloadData()
             
         }
@@ -78,11 +78,31 @@ class ActionTableViewController: UITableViewController {
 
         cell.name.text = action.name
         cell.timeBtn.tag = indexPath.row
-        indexPathArr.append(indexPath)
-        cell.timeBtn.addTarget(self, action: #selector(ActionTableViewController.chooseTime(_:)), forControlEvents: .TouchUpInside)
+        cell.setBtn.tag = indexPath.row
+        
+        cell.timeBtn.setTitle(action.time, forState: .Normal)
+        cell.setBtn.addTarget(self, action: #selector(ActionTableViewController.setTime(_:)), forControlEvents: .TouchUpInside)
+        
+        cell.timeBtn.addTarget(self, action: #selector(ActionTableViewController.chooseTime(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        
+        print("vtrgrw")
         // Configure the cell...
 
         return cell
+    }
+    
+    func setTime(sender: DCBorderedButton) {
+        print(sender.tag)
+        let dateFortmater = NSDateFormatter()
+        dateFortmater.timeStyle = NSDateFormatterStyle.ShortStyle
+        let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: sender.tag, inSection: 0)) as!TimeActionTableViewCell
+        
+        let time = dateFortmater.stringFromDate(cell.timePicker.date)
+        
+        cell.timeBtn.setTitle(time, forState: .Normal)
+        actions[sender.tag].time = time
+        
+        //cell.timeBtn.titleLabel?.text = dateFortmater.stringFromDate(cell.timePicker.date)
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -94,7 +114,7 @@ class ActionTableViewController: UITableViewController {
         
         let previousIndexPath = selectedIndexPath
         
-        let indexPath = indexPathArr[sender.tag]
+        let indexPath = NSIndexPath(forRow: sender.tag, inSection: 0)
         
         if indexPath == selectedIndexPath {
             selectedIndexPath = nil

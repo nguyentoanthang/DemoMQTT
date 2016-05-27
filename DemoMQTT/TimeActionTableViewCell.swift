@@ -14,9 +14,10 @@ class TimeActionTableViewCell: UITableViewCell {
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var timeBtn: UIButton!
     @IBOutlet weak var timePicker: UIDatePicker!
+    @IBOutlet weak var setBtn: DCBorderedButton!
     
     class var expandedHeight: CGFloat {
-        get { return 200}
+        get { return 245}
     }
     
     class var defaultHeight: CGFloat {
@@ -25,6 +26,14 @@ class TimeActionTableViewCell: UITableViewCell {
     
     func checkHeight() {
         timePicker.hidden = (frame.size.height < TimeActionTableViewCell.expandedHeight)
+        setBtn.hidden = (frame.size.height < TimeActionTableViewCell.expandedHeight)
+        
+        if frame.size.height == TimeActionTableViewCell.defaultHeight {
+            self.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+        } else {
+            self.accessoryType = UITableViewCellAccessoryType.None
+     
+        }
     }
     
     func watchFrameChanges() {
@@ -32,7 +41,6 @@ class TimeActionTableViewCell: UITableViewCell {
             addObserver(self, forKeyPath: "frame", options: [.New, .Initial], context: nil)
             isObserver = true
         }
-        
     }
     
     func ignoreFrameChanges() {

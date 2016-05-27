@@ -10,14 +10,15 @@ import Foundation
 
 class TimeAction {
     
-    var time: NSDate?
+    var time: String
     
     var controls: [ButtonSend] = []
 
     var name: String
     
-    init(name: String) {
+    init(name: String, time:String) {
         self.name = name
+        self.time = time
     }
     
 }

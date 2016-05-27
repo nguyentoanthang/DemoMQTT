@@ -622,35 +622,76 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TimeAction" rowHeight="200" id="aPm-dB-xbI" customClass="TimeActionTableViewCell" customModule="DemoMQTT" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="92" width="320" height="200"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TimeAction" rowHeight="245" id="aPm-dB-xbI" customClass="TimeActionTableViewCell" customModule="DemoMQTT" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="92" width="320" height="245"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="aPm-dB-xbI" id="Nvz-xi-d0k">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="199"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="244"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gbl-eS-Swq">
-                                            <rect key="frame" x="57" y="11" width="230" height="21"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R14-cS-ZxY">
-                                            <rect key="frame" x="8" y="7" width="34" height="30"/>
-                                            <state key="normal" title="Time"/>
-                                        </button>
-                                        <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="38B-Bc-6Vy">
+                                        <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="38B-Bc-6Vy">
                                             <rect key="frame" x="0.0" y="45" width="320" height="154"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="154" id="r8l-4I-UHO"/>
+                                            </constraints>
                                             <date key="date" timeIntervalSinceReferenceDate="485854476.35437799">
                                                 <!--2016-05-25 07:34:36 +0000-->
                                             </date>
                                         </datePicker>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7uz-nU-hlI" customClass="DCBorderedButton" customModule="DemoMQTT" customModuleProvider="target">
+                                            <rect key="frame" x="118" y="206" width="85" height="29"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="85" id="MoL-20-Wg0"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <state key="normal" title="Set"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="normalBorderColor">
+                                                    <color key="value" red="0.0" green="0.76124526520000002" blue="0.00023303528830000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                    <real key="value" value="5"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="normalBackgroundColor">
+                                                    <color key="value" red="0.0" green="0.76124526520000002" blue="0.00023303528830000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="normalTextColor">
+                                                    <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                    <real key="value" value="1"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
+                                        </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nT4-pD-hvO">
+                                            <rect key="frame" x="8" y="7" width="46" height="30"/>
+                                            <state key="normal" title="Button"/>
+                                        </button>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gbl-eS-Swq">
+                                            <rect key="frame" x="70" y="11" width="45" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="7uz-nU-hlI" firstAttribute="centerX" secondItem="Nvz-xi-d0k" secondAttribute="centerX" id="1xh-bk-OOA"/>
+                                        <constraint firstItem="38B-Bc-6Vy" firstAttribute="top" secondItem="Gbl-eS-Swq" secondAttribute="bottom" constant="13" id="4lh-IB-uqB"/>
+                                        <constraint firstItem="Gbl-eS-Swq" firstAttribute="leading" secondItem="nT4-pD-hvO" secondAttribute="trailing" constant="16" id="6zy-5z-4In"/>
+                                        <constraint firstItem="Gbl-eS-Swq" firstAttribute="centerY" secondItem="nT4-pD-hvO" secondAttribute="centerY" id="Nwh-Gp-ubw"/>
+                                        <constraint firstItem="7uz-nU-hlI" firstAttribute="top" secondItem="38B-Bc-6Vy" secondAttribute="bottom" constant="7" id="RIy-XT-C31"/>
+                                        <constraint firstItem="Gbl-eS-Swq" firstAttribute="top" secondItem="Nvz-xi-d0k" secondAttribute="top" constant="11" id="ZCc-zp-y43"/>
+                                        <constraint firstItem="nT4-pD-hvO" firstAttribute="leading" secondItem="Nvz-xi-d0k" secondAttribute="leading" constant="8" id="deN-kZ-iZu"/>
+                                        <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="Gbl-eS-Swq" secondAttribute="trailing" constant="205" id="gMJ-DK-vbO"/>
+                                        <constraint firstItem="38B-Bc-6Vy" firstAttribute="centerX" secondItem="Nvz-xi-d0k" secondAttribute="centerX" id="lNy-0a-FJg"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="name" destination="Gbl-eS-Swq" id="9XI-y1-1Ra"/>
-                                    <outlet property="timeBtn" destination="R14-cS-ZxY" id="Xe1-co-hrr"/>
+                                    <outlet property="setBtn" destination="7uz-nU-hlI" id="oL6-Df-GlR"/>
+                                    <outlet property="timeBtn" destination="nT4-pD-hvO" id="G5p-Y5-N71"/>
                                     <outlet property="timePicker" destination="38B-Bc-6Vy" id="6tU-RV-dZm"/>
+                                    <segue destination="FhD-ej-Z1A" kind="show" id="vhO-Pd-t0X"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -672,6 +713,31 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9VO-wb-8Kx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1273" y="-52"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="vpY-OG-tOz">
+            <objects>
+                <viewController hidesBottomBarWhenPushed="YES" id="FhD-ej-Z1A" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="aPA-yp-LYY"/>
+                        <viewControllerLayoutGuide type="bottom" id="Qr0-9R-4eQ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="hhq-eX-jzz">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jBr-fM-eIq">
+                                <rect key="frame" x="0.0" y="440" width="320" height="128"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5xj-rN-Tz2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1683" y="-38"/>
         </scene>
         <!--Device-->
         <scene sceneID="KVj-Aa-NSr">
