@@ -16,6 +16,8 @@ class TimeActionTableViewCell: UITableViewCell {
     @IBOutlet weak var timePicker: UIDatePicker!
     @IBOutlet weak var setBtn: DCBorderedButton!
     
+    @IBOutlet weak var devicePicker: UIPickerView!
+    @IBOutlet weak var icon: UIImageView!
     class var expandedHeight: CGFloat {
         get { return 245}
     }

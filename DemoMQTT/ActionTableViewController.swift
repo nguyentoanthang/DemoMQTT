@@ -85,7 +85,8 @@ class ActionTableViewController: UITableViewController {
         
         cell.timeBtn.addTarget(self, action: #selector(ActionTableViewController.chooseTime(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         
-        print("vtrgrw")
+        cell.icon.layer.cornerRadius = cell.icon.frame.width/2
+        cell.icon.clipsToBounds = true
         // Configure the cell...
 
         return cell
@@ -200,5 +201,20 @@ class ActionTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
 }
+
+extension ActionTableViewController: UIPickerViewDataSource, UIPickerViewDelegate {
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return DeviceArray.IRarray.count
+    }
+    
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return (DeviceArray.IRarray[row]["DeviceId"] as! String)
+    }
+    
+}
+

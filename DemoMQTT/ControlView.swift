@@ -7,12 +7,16 @@
 //
 
 import UIKit
+import MBProgressHUD
+import Async
+import Parse
 
 class ControlView: UIViewController {
 
     var isShow: Bool = false
     var isChooseDevice: Bool = false
     var controls:[UIView] = []
+    var controls1: [Control] = []
     weak var buttonTemp: ButtonSend!
     
     @IBOutlet weak var chooseDeviceBtn: DCBorderedButton!
@@ -28,6 +32,57 @@ class ControlView: UIViewController {
     let blurView = UIVisualEffectView()
     let blackView = UIView()
 
+    func addControl() {
+        
+        let query = Control.query()
+        query?.whereKey("SceneId", equalTo: self.currentScene.objectId!)
+        showLoadingHUD()
+        Async.background {
+            do {
+                self.controls1 = try query?.findObjects() as! [Control]
+                for object in self.controls1 {
+                    if object["Type"] as! Int == 0 {
+                        let button = ButtonSend(type: UIButtonType.System)
+                        button.customInit()
+                        button.setTitle("?", forState: UIControlState.Normal)
+                        button.frame = CGRectMake(object["X"] as! CGFloat, object["Y"] as! CGFloat, 50, 50)
+                        
+                        let longpress = UILongPressGestureRecognizer(target: self, action: #selector(ControlView.long(_:)))
+                        
+                        let pan = UIPanGestureRecognizer(target: self, action: #selector(self.pan(_:)))
+                        
+                        let tap = UITapGestureRecognizer(target: self, action: #selector(ControlView.handelTap(_:)))
+                        tap.delegate = self
+                        tap.requireGestureRecognizerToFail(longpress)
+                        
+                        button.addGestureRecognizer(tap)
+                        button.addGestureRecognizer(longpress)
+                        button.addGestureRecognizer(pan)
+                        
+                        self.controls.append(button)
+                    }
+                }
+            
+            } catch {
+                print("some thing went wrong")
+            }
+            }.main {
+                self.hideLoadingHUD()
+                for view in self.controls {
+                    self.view.addSubview(view)
+                }
+        }
+        
+    }
+    
+    private func showLoadingHUD() {
+        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        hud.labelText = "Loading..."
+    }
+    
+    private func hideLoadingHUD() {
+        MBProgressHUD.hideHUDForView(self.view, animated: true)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,6 +113,8 @@ class ControlView: UIViewController {
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: .Default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.translucent = true
+        
+        addControl()
         
     }
     
@@ -114,6 +171,10 @@ class ControlView: UIViewController {
         if sender.state == UIGestureRecognizerState.Ended {
             
             if buttonTemp.center.y < self.controlView.frame.origin.y {
+                
+                // save control to parse.com
+                let control = Control(type: 0, sceneID: self.currentScene.objectId!)
+                
                 let longpress = UILongPressGestureRecognizer(target: self, action: #selector(ControlView.long(_:)))
                 
                 let pan = UIPanGestureRecognizer(target: self, action: #selector(self.pan(_:)))
@@ -133,6 +194,10 @@ class ControlView: UIViewController {
                 if buttonTemp.frame.origin.y < y {
                     buttonTemp.center = CGPoint(x: buttonTemp.center.x, y: y + buttonTemp.frame.height/2)
                 }
+                
+                control["X"] = buttonTemp.frame.origin.x
+                control["Y"] = buttonTemp.frame.origin.y
+                control.saveInBackground()
 
             } else {
                 buttonTemp.removeFromSuperview()
@@ -281,7 +346,13 @@ class ControlView: UIViewController {
             }
             
             print("end")
-        }
+            
+            let control = self.controls1[controls.indexOf(sender.view!)!]
+            control["X"] = sender.view?.frame.origin.x
+            control["Y"] = sender.view?.frame.origin.y
+            control.saveInBackground()
+            
+       }
         let translation = sender.translationInView(self.view)
         if let view = sender.view {
             view.center = CGPoint(x:view.center.x + translation.x,

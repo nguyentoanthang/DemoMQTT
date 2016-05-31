@@ -12,6 +12,15 @@ import Parse.PFObject_Subclass
 class Control: PFObject, PFSubclassing {
     
     @NSManaged var type: Int
+    @NSManaged var sceneID: String
+    
+    convenience init(type: Int, sceneID: String) {
+        self.init()
+        self.type = type
+        self["Type"] = type
+        self["SceneId"] = sceneID
+        self.sceneID = sceneID
+    }
     
     override class func initialize() {
         struct Static {

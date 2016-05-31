@@ -56,6 +56,7 @@
 		0441E3FA1CCFCA5B00A13CF9 /* ControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0441E3F91CCFCA5B00A13CF9 /* ControlView.swift */; };
 		0441E3FE1CCFD0C700A13CF9 /* SceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0441E3FD1CCFD0C700A13CF9 /* SceneView.swift */; };
 		0441E4001CCFD23500A13CF9 /* SceneCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0441E3FF1CCFD23500A13CF9 /* SceneCell.swift */; };
+		0443DCA51CFD53CC004C3B79 /* AddActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0443DCA41CFD53CC004C3B79 /* AddActionViewController.swift */; };
 		04448BE51CF57A0000F1085D /* TimeAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04448BE41CF57A0000F1085D /* TimeAction.swift */; };
 		04448BE91CF57A9500F1085D /* ActionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04448BE81CF57A9500F1085D /* ActionTableViewController.swift */; };
 		04448BEB1CF5806B00F1085D /* TimeActionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04448BEA1CF5806B00F1085D /* TimeActionTableViewCell.swift */; };
@@ -122,6 +123,7 @@
 		0441E3F91CCFCA5B00A13CF9 /* ControlView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlView.swift; sourceTree = "<group>"; };
 		0441E3FD1CCFD0C700A13CF9 /* SceneView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneView.swift; sourceTree = "<group>"; };
 		0441E3FF1CCFD23500A13CF9 /* SceneCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneCell.swift; sourceTree = "<group>"; };
+		0443DCA41CFD53CC004C3B79 /* AddActionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddActionViewController.swift; sourceTree = "<group>"; };
 		04448BE41CF57A0000F1085D /* TimeAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeAction.swift; sourceTree = "<group>"; };
 		04448BE81CF57A9500F1085D /* ActionTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionTableViewController.swift; sourceTree = "<group>"; };
 		04448BEA1CF5806B00F1085D /* TimeActionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeActionTableViewCell.swift; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 				04448BE41CF57A0000F1085D /* TimeAction.swift */,
 				04448BE81CF57A9500F1085D /* ActionTableViewController.swift */,
 				04448BEA1CF5806B00F1085D /* TimeActionTableViewCell.swift */,
+				0443DCA41CFD53CC004C3B79 /* AddActionViewController.swift */,
 			);
 			path = DemoMQTT;
 			sourceTree = "<group>";
@@ -425,6 +428,7 @@
 				0426D7441CC9D77C00183FA6 /* DeviceTableViewController.swift in Sources */,
 				041D8BBB1CE2E29C00DCF382 /* UIColor+Convenience.swift in Sources */,
 				04F93D121CD271CF004829C2 /* DeviceArray.swift in Sources */,
+				0443DCA51CFD53CC004C3B79 /* AddActionViewController.swift in Sources */,
 				0441E3F61CCFC30900A13CF9 /* FlipPresentAnimationController.swift in Sources */,
 				042C289C1CE088E300C70491 /* DCBaseView.swift in Sources */,
 				043D53951CC9475C00672F26 /* DCRoundedButton.swift in Sources */,
