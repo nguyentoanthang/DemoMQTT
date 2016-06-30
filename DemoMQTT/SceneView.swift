@@ -43,7 +43,7 @@ class SceneView: UICollectionViewController, UIGestureRecognizerDelegate {
                 Connection.instance.connect()
                 if PFUser.currentUser() != nil {
                     showLoadingHUD()
-                    Async.background {
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), { 
                         let longpress = UILongPressGestureRecognizer(target: self, action: #selector(self.handelLongpress(_:)))
                         
                         longpress.delegate = self
@@ -51,12 +51,25 @@ class SceneView: UICollectionViewController, UIGestureRecognizerDelegate {
                         //excute all of work before loading UI
                         DeviceArray.createArray()
                         SceneArray.createScene()
-                        }.main {
+                        dispatch_async(dispatch_get_main_queue(), { 
                             self.hideLoadingHUD()
                             self.collectionView?.reloadData()
-                    }
-                    
-                    print("")
+                        })
+                    })
+//                    Async.background {
+//                        let longpress = UILongPressGestureRecognizer(target: self, action: #selector(self.handelLongpress(_:)))
+//                        
+//                        longpress.delegate = self
+//                        self.collectionView?.addGestureRecognizer(longpress)
+//                        //excute all of work before loading UI
+//                        DeviceArray.createArray()
+//                        SceneArray.createScene()
+//                        }.main {
+//                            self.hideLoadingHUD()
+//                            self.collectionView?.reloadData()
+//                    }
+//                    
+//                    print("")
                 }
             } else {
                 

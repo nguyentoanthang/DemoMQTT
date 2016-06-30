@@ -11,6 +11,7 @@ import MBProgressHUD
 import Async
 import Parse
 import ParseUI
+import CocoaMQTT
 
 class ControlView: UIViewController {
 
@@ -155,6 +156,7 @@ class ControlView: UIViewController {
 //        self.navigationController?.navigationBar.translucent = true
         
         addControl()
+        Connection.instance.mqtt?.delegate = self
         
     }
     
@@ -596,6 +598,7 @@ class ControlView: UIViewController {
     }
     
     @IBAction func LearnIRCode(sender: AnyObject) {
+        Connection.instance.mqtt?.publish("example1", withString: "first publish")
     }
     
 }
@@ -638,4 +641,51 @@ extension ControlView: UIPickerViewDataSource, UIPickerViewDelegate {
         print(self.configView.frame)
     }
     
+}
+
+extension ControlView: CocoaMQTTDelegate {
+    func mqtt(mqtt: CocoaMQTT, didConnect host: String, port: Int) {
+        print("didConnect \(host):\(port)")
+    }
+    
+    func mqtt(mqtt: CocoaMQTT, didConnectAck ack: CocoaMQTTConnAck) {
+        print("didConnect Ack")
+        
+    }
+    
+    func mqtt(mqtt: CocoaMQTT, didPublishMessage message: CocoaMQTTMessage, id: UInt16) {
+        print("didPublishMessage with message: \(message.string)")
+    }
+    
+    func mqtt(mqtt: CocoaMQTT, didPublishAck id: UInt16) {
+        print("didPublishAck with id: \(id)")
+    }
+    
+    func mqtt(mqtt: CocoaMQTT, didReceiveMessage message: CocoaMQTTMessage, id: UInt16 ) {
+        print("receive message on ControlView")
+    }
+    
+    func mqtt(mqtt: CocoaMQTT, didSubscribeTopic topic: String) {
+        print("didSubscribeTopic to \(topic)")
+    }
+    
+    func mqtt(mqtt: CocoaMQTT, didUnsubscribeTopic topic: String) {
+        print("didUnsubscribeTopic to \(topic)")
+    }
+    
+    func mqttDidPing(mqtt: CocoaMQTT) {
+        print("didPing")
+    }
+    
+    func mqttDidReceivePong(mqtt: CocoaMQTT) {
+        _console("didReceivePong")
+    }
+    
+    func mqttDidDisconnect(mqtt: CocoaMQTT, withError err: NSError?) {
+        _console("mqttDidDisconnect")
+    }
+    
+    func _console(info: String) {
+        print("Delegate: \(info)")
+    }
 }

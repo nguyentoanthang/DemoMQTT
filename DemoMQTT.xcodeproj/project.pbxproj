@@ -57,6 +57,7 @@
 		04448BE51CF57A0000F1085D /* TimeAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04448BE41CF57A0000F1085D /* TimeAction.swift */; };
 		04448BE91CF57A9500F1085D /* ActionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04448BE81CF57A9500F1085D /* ActionTableViewController.swift */; };
 		04448BEB1CF5806B00F1085D /* TimeActionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04448BEA1CF5806B00F1085D /* TimeActionTableViewCell.swift */; };
+		0495188D1D255DB2000732A6 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0495188C1D255DB2000732A6 /* Color.swift */; };
 		049884501CD3827B00187B06 /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0498844F1CD3827B00187B06 /* SignupView.swift */; };
 		04BF65E61CE5AAA600BF47FE /* Control.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BF65E51CE5AAA600BF47FE /* Control.swift */; };
 		04BF65E81CE5CE4C00BF47FE /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BF65E71CE5CE4C00BF47FE /* ParseUI.framework */; };
@@ -122,6 +123,7 @@
 		04448BE41CF57A0000F1085D /* TimeAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeAction.swift; sourceTree = "<group>"; };
 		04448BE81CF57A9500F1085D /* ActionTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionTableViewController.swift; sourceTree = "<group>"; };
 		04448BEA1CF5806B00F1085D /* TimeActionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeActionTableViewCell.swift; sourceTree = "<group>"; };
+		0495188C1D255DB2000732A6 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		0498844F1CD3827B00187B06 /* SignupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
 		04BF65E51CE5AAA600BF47FE /* Control.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Control.swift; sourceTree = "<group>"; };
 		04BF65E71CE5CE4C00BF47FE /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
@@ -220,6 +222,7 @@
 				040F7E5E1D067B1D008EBEA7 /* ControlButton.swift */,
 				040F7E601D0684C9008EBEA7 /* CustomLabel.swift */,
 				04EAFE5E1D091E9600D86269 /* Reachability.swift */,
+				0495188C1D255DB2000732A6 /* Color.swift */,
 			);
 			path = DemoMQTT;
 			sourceTree = "<group>";
@@ -423,6 +426,7 @@
 				043D53951CC9475C00672F26 /* DCRoundedButton.swift in Sources */,
 				041D8BBD1CE2E8FE00DCF382 /* SceneArray.swift in Sources */,
 				043D53931CC9475C00672F26 /* DCBaseButton.swift in Sources */,
+				0495188D1D255DB2000732A6 /* Color.swift in Sources */,
 				04D267361CCA9EEF0001CCC8 /* UIAlertController+Convenience.swift in Sources */,
 				043D53A11CC94BAE00672F26 /* DCMandatoryEmailTextField.swift in Sources */,
 				042C28931CE06BF300C70491 /* SettingTableViewController.swift in Sources */,
