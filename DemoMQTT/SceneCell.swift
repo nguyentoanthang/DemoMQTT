@@ -21,11 +21,10 @@ class SceneCell: UICollectionViewCell {
                 
             } else {
                 image.file = currentScene["Image"] as? PFFile
-                image.loadInBackground({ (image: UIImage?, error: NSError?) in
-                    self.currentScene.image = image
-                })
-                nameScene.text = currentScene["Name"] as? String
+                image.loadInBackground()
+                
             }
+            nameScene.text = currentScene["Name"] as? String
         }
     }
     
@@ -35,10 +34,11 @@ class SceneCell: UICollectionViewCell {
         }
     }
     
-    var name: String? {
-        didSet {
-            nameScene.text = name
-        }
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        self.layer.cornerRadius = 8.0
+        self.clipsToBounds = true
     }
     
 }

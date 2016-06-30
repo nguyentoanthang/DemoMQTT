@@ -12,6 +12,7 @@ class ButtonSend: UIButton {
     
     var irCode: String?
     var codeType: String?
+    weak var control: Control?
     
     override init(frame: CGRect) {
         super.init(frame: frame)

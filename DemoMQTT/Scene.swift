@@ -11,15 +11,9 @@ import Parse.PFObject_Subclass
 
 class Scene: PFObject, PFSubclassing {
     
-    @NSManaged var name: String?
-    @NSManaged var email: String?
-    var image: UIImage?
-    
     convenience init(name: String, email: String) {
         self.init()
-        self.name = name
         self["Name"] = name
-        self.email = email
         self["Email"] = email
     }
     

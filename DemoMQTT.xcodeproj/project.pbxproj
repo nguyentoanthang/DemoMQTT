@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		040F7E5F1D067B1D008EBEA7 /* ControlButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040F7E5E1D067B1D008EBEA7 /* ControlButton.swift */; };
+		040F7E611D0684C9008EBEA7 /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040F7E601D0684C9008EBEA7 /* CustomLabel.swift */; };
 		041D8BBB1CE2E29C00DCF382 /* UIColor+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041D8BBA1CE2E29C00DCF382 /* UIColor+Convenience.swift */; };
 		041D8BBD1CE2E8FE00DCF382 /* SceneArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041D8BBC1CE2E8FE00DCF382 /* SceneArray.swift */; };
 		0420E2D91CCE81B6005612E7 /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0420E2D81CCE81B6005612E7 /* Connection.swift */; };
@@ -18,7 +20,6 @@
 		04245E0C1CD0669700FD4DEA /* IRDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04245E0B1CD0669700FD4DEA /* IRDevice.swift */; };
 		04245E0E1CD066B600FD4DEA /* DTHDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04245E0D1CD066B600FD4DEA /* DTHDevice.swift */; };
 		04245E121CD0703200FD4DEA /* ButtonSend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04245E111CD0703200FD4DEA /* ButtonSend.swift */; };
-		04245E141CD0788500FD4DEA /* ConfigtionIRView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04245E131CD0788500FD4DEA /* ConfigtionIRView.swift */; };
 		0426D72D1CC9D44000183FA6 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0426D72B1CC9D44000183FA6 /* Bolts.framework */; };
 		0426D72E1CC9D44000183FA6 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0426D72C1CC9D44000183FA6 /* Parse.framework */; };
 		0426D7301CC9D4B300183FA6 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0426D72F1CC9D4B300183FA6 /* CoreLocation.framework */; };
@@ -35,11 +36,9 @@
 		0426D7461CC9D7B600183FA6 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0426D7451CC9D7B600183FA6 /* Device.swift */; };
 		042C288F1CE05D0900C70491 /* ConfigLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042C288E1CE05D0900C70491 /* ConfigLabelView.swift */; };
 		042C28931CE06BF300C70491 /* SettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042C28921CE06BF300C70491 /* SettingTableViewController.swift */; };
-		042C289C1CE088E300C70491 /* DCBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042C28971CE088E300C70491 /* DCBaseView.swift */; };
-		042C289D1CE088E300C70491 /* DCBorderedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042C28981CE088E300C70491 /* DCBorderedView.swift */; };
-		042C289E1CE088E300C70491 /* DCCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042C28991CE088E300C70491 /* DCCircleView.swift */; };
-		042C289F1CE088E300C70491 /* DCDashedBorderedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042C289A1CE088E300C70491 /* DCDashedBorderedView.swift */; };
-		042C28A01CE088E300C70491 /* DCHairlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042C289B1CE088E300C70491 /* DCHairlineView.swift */; };
+		04324C0F1D0E88BE0051D3D1 /* DCCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04324C0E1D0E88BE0051D3D1 /* DCCircleView.swift */; };
+		04324C111D0E88FE0051D3D1 /* DCBorderedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04324C101D0E88FE0051D3D1 /* DCBorderedView.swift */; };
+		04324C131D0E89220051D3D1 /* DCBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04324C121D0E89220051D3D1 /* DCBaseView.swift */; };
 		043D538E1CC93C5200672F26 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D538D1CC93C5200672F26 /* LoginViewController.swift */; };
 		043D53931CC9475C00672F26 /* DCBaseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D53901CC9475C00672F26 /* DCBaseButton.swift */; };
 		043D53941CC9475C00672F26 /* DCBorderedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D53911CC9475C00672F26 /* DCBorderedButton.swift */; };
@@ -51,8 +50,6 @@
 		043D53A31CC94BAE00672F26 /* DCMandatoryTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D539D1CC94BAE00672F26 /* DCMandatoryTextField.swift */; };
 		043D53A41CC94BAE00672F26 /* DCPickerTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043D539E1CC94BAE00672F26 /* DCPickerTextField.swift */; };
 		0441E3F21CCFB4A100A13CF9 /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0441E3F11CCFB4A100A13CF9 /* Scene.swift */; };
-		0441E3F61CCFC30900A13CF9 /* FlipPresentAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0441E3F51CCFC30900A13CF9 /* FlipPresentAnimationController.swift */; };
-		0441E3F81CCFC67F00A13CF9 /* AnimationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0441E3F71CCFC67F00A13CF9 /* AnimationHelper.swift */; };
 		0441E3FA1CCFCA5B00A13CF9 /* ControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0441E3F91CCFCA5B00A13CF9 /* ControlView.swift */; };
 		0441E3FE1CCFD0C700A13CF9 /* SceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0441E3FD1CCFD0C700A13CF9 /* SceneView.swift */; };
 		0441E4001CCFD23500A13CF9 /* SceneCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0441E3FF1CCFD23500A13CF9 /* SceneCell.swift */; };
@@ -66,12 +63,15 @@
 		04C546871CC88E75004B105D /* DashBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C546861CC88E75004B105D /* DashBoardViewController.swift */; };
 		04D267341CCA99D40001CCC8 /* DeviceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D267331CCA99D40001CCC8 /* DeviceCell.swift */; };
 		04D267361CCA9EEF0001CCC8 /* UIAlertController+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D267351CCA9EEF0001CCC8 /* UIAlertController+Convenience.swift */; };
+		04EAFE5F1D091E9600D86269 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EAFE5E1D091E9600D86269 /* Reachability.swift */; };
 		04F93D101CD259D2004829C2 /* IRCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F93D0F1CD259D2004829C2 /* IRCode.swift */; };
 		04F93D121CD271CF004829C2 /* DeviceArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F93D111CD271CF004829C2 /* DeviceArray.swift */; };
 		ED946912399663A70DB5B1E5 /* Pods_DemoMQTT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A943F7A1DDF66AFE7116054C /* Pods_DemoMQTT.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		040F7E5E1D067B1D008EBEA7 /* ControlButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlButton.swift; sourceTree = "<group>"; };
+		040F7E601D0684C9008EBEA7 /* CustomLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
 		041D8BBA1CE2E29C00DCF382 /* UIColor+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Convenience.swift"; sourceTree = "<group>"; };
 		041D8BBC1CE2E8FE00DCF382 /* SceneArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneArray.swift; sourceTree = "<group>"; };
 		0420E2D81CCE81B6005612E7 /* Connection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Connection.swift; sourceTree = "<group>"; };
@@ -85,7 +85,6 @@
 		04245E0B1CD0669700FD4DEA /* IRDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IRDevice.swift; sourceTree = "<group>"; };
 		04245E0D1CD066B600FD4DEA /* DTHDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DTHDevice.swift; sourceTree = "<group>"; };
 		04245E111CD0703200FD4DEA /* ButtonSend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonSend.swift; sourceTree = "<group>"; };
-		04245E131CD0788500FD4DEA /* ConfigtionIRView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigtionIRView.swift; sourceTree = "<group>"; };
 		0426D72B1CC9D44000183FA6 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		0426D72C1CC9D44000183FA6 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		0426D72F1CC9D4B300183FA6 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -102,11 +101,9 @@
 		0426D7451CC9D7B600183FA6 /* Device.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		042C288E1CE05D0900C70491 /* ConfigLabelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigLabelView.swift; sourceTree = "<group>"; };
 		042C28921CE06BF300C70491 /* SettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingTableViewController.swift; sourceTree = "<group>"; };
-		042C28971CE088E300C70491 /* DCBaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DCBaseView.swift; path = "../../../../../../Users/mac/Desktop/DCKit-master/Classes/UIViews/DCBaseView.swift"; sourceTree = "<group>"; };
-		042C28981CE088E300C70491 /* DCBorderedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DCBorderedView.swift; path = "../../../../../../Users/mac/Desktop/DCKit-master/Classes/UIViews/DCBorderedView.swift"; sourceTree = "<group>"; };
-		042C28991CE088E300C70491 /* DCCircleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DCCircleView.swift; path = "../../../../../../Users/mac/Desktop/DCKit-master/Classes/UIViews/DCCircleView.swift"; sourceTree = "<group>"; };
-		042C289A1CE088E300C70491 /* DCDashedBorderedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DCDashedBorderedView.swift; path = "../../../../../../Users/mac/Desktop/DCKit-master/Classes/UIViews/DCDashedBorderedView.swift"; sourceTree = "<group>"; };
-		042C289B1CE088E300C70491 /* DCHairlineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DCHairlineView.swift; path = "../../../../../../Users/mac/Desktop/DCKit-master/Classes/UIViews/DCHairlineView.swift"; sourceTree = "<group>"; };
+		04324C0E1D0E88BE0051D3D1 /* DCCircleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCCircleView.swift; sourceTree = "<group>"; };
+		04324C101D0E88FE0051D3D1 /* DCBorderedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCBorderedView.swift; sourceTree = "<group>"; };
+		04324C121D0E89220051D3D1 /* DCBaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCBaseView.swift; sourceTree = "<group>"; };
 		043D538D1CC93C5200672F26 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		043D53901CC9475C00672F26 /* DCBaseButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCBaseButton.swift; sourceTree = "<group>"; };
 		043D53911CC9475C00672F26 /* DCBorderedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCBorderedButton.swift; sourceTree = "<group>"; };
@@ -118,8 +115,6 @@
 		043D539D1CC94BAE00672F26 /* DCMandatoryTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCMandatoryTextField.swift; sourceTree = "<group>"; };
 		043D539E1CC94BAE00672F26 /* DCPickerTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCPickerTextField.swift; sourceTree = "<group>"; };
 		0441E3F11CCFB4A100A13CF9 /* Scene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
-		0441E3F51CCFC30900A13CF9 /* FlipPresentAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlipPresentAnimationController.swift; sourceTree = "<group>"; };
-		0441E3F71CCFC67F00A13CF9 /* AnimationHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnimationHelper.swift; path = "../../../../../../Users/mac/Desktop/GuessThePet-Starter/GuessThePet/Helpers/AnimationHelper.swift"; sourceTree = "<group>"; };
 		0441E3F91CCFCA5B00A13CF9 /* ControlView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlView.swift; sourceTree = "<group>"; };
 		0441E3FD1CCFD0C700A13CF9 /* SceneView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneView.swift; sourceTree = "<group>"; };
 		0441E3FF1CCFD23500A13CF9 /* SceneCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneCell.swift; sourceTree = "<group>"; };
@@ -133,6 +128,7 @@
 		04C546861CC88E75004B105D /* DashBoardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashBoardViewController.swift; sourceTree = "<group>"; };
 		04D267331CCA99D40001CCC8 /* DeviceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceCell.swift; sourceTree = "<group>"; };
 		04D267351CCA9EEF0001CCC8 /* UIAlertController+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Convenience.swift"; sourceTree = "<group>"; };
+		04EAFE5E1D091E9600D86269 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		04F93D0F1CD259D2004829C2 /* IRCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IRCode.swift; sourceTree = "<group>"; };
 		04F93D111CD271CF004829C2 /* DeviceArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceArray.swift; sourceTree = "<group>"; };
 		A943F7A1DDF66AFE7116054C /* Pods_DemoMQTT.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DemoMQTT.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -187,7 +183,6 @@
 			isa = PBXGroup;
 			children = (
 				042C28961CE088CA00C70491 /* UIView */,
-				0441E3F71CCFC67F00A13CF9 /* AnimationHelper.swift */,
 				043D53981CC94B7700672F26 /* TextFields */,
 				043D538F1CC9473B00672F26 /* Button */,
 				04214E8F1CC486B300F8FE0C /* AppDelegate.swift */,
@@ -204,14 +199,12 @@
 				04D267351CCA9EEF0001CCC8 /* UIAlertController+Convenience.swift */,
 				0420E2D81CCE81B6005612E7 /* Connection.swift */,
 				0441E3F11CCFB4A100A13CF9 /* Scene.swift */,
-				0441E3F51CCFC30900A13CF9 /* FlipPresentAnimationController.swift */,
 				0441E3F91CCFCA5B00A13CF9 /* ControlView.swift */,
 				0441E3FD1CCFD0C700A13CF9 /* SceneView.swift */,
 				0441E3FF1CCFD23500A13CF9 /* SceneCell.swift */,
 				04245E0B1CD0669700FD4DEA /* IRDevice.swift */,
 				04245E0D1CD066B600FD4DEA /* DTHDevice.swift */,
 				04245E111CD0703200FD4DEA /* ButtonSend.swift */,
-				04245E131CD0788500FD4DEA /* ConfigtionIRView.swift */,
 				04F93D0F1CD259D2004829C2 /* IRCode.swift */,
 				04F93D111CD271CF004829C2 /* DeviceArray.swift */,
 				0498844F1CD3827B00187B06 /* SignupView.swift */,
@@ -224,6 +217,9 @@
 				04448BE81CF57A9500F1085D /* ActionTableViewController.swift */,
 				04448BEA1CF5806B00F1085D /* TimeActionTableViewCell.swift */,
 				0443DCA41CFD53CC004C3B79 /* AddActionViewController.swift */,
+				040F7E5E1D067B1D008EBEA7 /* ControlButton.swift */,
+				040F7E601D0684C9008EBEA7 /* CustomLabel.swift */,
+				04EAFE5E1D091E9600D86269 /* Reachability.swift */,
 			);
 			path = DemoMQTT;
 			sourceTree = "<group>";
@@ -231,11 +227,9 @@
 		042C28961CE088CA00C70491 /* UIView */ = {
 			isa = PBXGroup;
 			children = (
-				042C28971CE088E300C70491 /* DCBaseView.swift */,
-				042C28981CE088E300C70491 /* DCBorderedView.swift */,
-				042C28991CE088E300C70491 /* DCCircleView.swift */,
-				042C289A1CE088E300C70491 /* DCDashedBorderedView.swift */,
-				042C289B1CE088E300C70491 /* DCHairlineView.swift */,
+				04324C0E1D0E88BE0051D3D1 /* DCCircleView.swift */,
+				04324C101D0E88FE0051D3D1 /* DCBorderedView.swift */,
+				04324C121D0E89220051D3D1 /* DCBaseView.swift */,
 			);
 			name = UIView;
 			sourceTree = "<group>";
@@ -416,30 +410,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				042C289D1CE088E300C70491 /* DCBorderedView.swift in Sources */,
 				04245E0C1CD0669700FD4DEA /* IRDevice.swift in Sources */,
 				0441E4001CCFD23500A13CF9 /* SceneCell.swift in Sources */,
-				0441E3F81CCFC67F00A13CF9 /* AnimationHelper.swift in Sources */,
 				04448BE51CF57A0000F1085D /* TimeAction.swift in Sources */,
 				043D538E1CC93C5200672F26 /* LoginViewController.swift in Sources */,
 				04245E0E1CD066B600FD4DEA /* DTHDevice.swift in Sources */,
-				042C289E1CE088E300C70491 /* DCCircleView.swift in Sources */,
 				0420E2D91CCE81B6005612E7 /* Connection.swift in Sources */,
 				0426D7441CC9D77C00183FA6 /* DeviceTableViewController.swift in Sources */,
 				041D8BBB1CE2E29C00DCF382 /* UIColor+Convenience.swift in Sources */,
 				04F93D121CD271CF004829C2 /* DeviceArray.swift in Sources */,
 				0443DCA51CFD53CC004C3B79 /* AddActionViewController.swift in Sources */,
-				0441E3F61CCFC30900A13CF9 /* FlipPresentAnimationController.swift in Sources */,
-				042C289C1CE088E300C70491 /* DCBaseView.swift in Sources */,
 				043D53951CC9475C00672F26 /* DCRoundedButton.swift in Sources */,
-				042C289F1CE088E300C70491 /* DCDashedBorderedView.swift in Sources */,
 				041D8BBD1CE2E8FE00DCF382 /* SceneArray.swift in Sources */,
 				043D53931CC9475C00672F26 /* DCBaseButton.swift in Sources */,
 				04D267361CCA9EEF0001CCC8 /* UIAlertController+Convenience.swift in Sources */,
 				043D53A11CC94BAE00672F26 /* DCMandatoryEmailTextField.swift in Sources */,
 				042C28931CE06BF300C70491 /* SettingTableViewController.swift in Sources */,
-				04245E141CD0788500FD4DEA /* ConfigtionIRView.swift in Sources */,
 				043D53A31CC94BAE00672F26 /* DCMandatoryTextField.swift in Sources */,
+				04324C131D0E89220051D3D1 /* DCBaseView.swift in Sources */,
 				043D539F1CC94BAE00672F26 /* DCBaseTextField.swift in Sources */,
 				04C546871CC88E75004B105D /* DashBoardViewController.swift in Sources */,
 				043D53A01CC94BAE00672F26 /* DCBorderedTextField.swift in Sources */,
@@ -447,17 +435,21 @@
 				04245E121CD0703200FD4DEA /* ButtonSend.swift in Sources */,
 				04448BEB1CF5806B00F1085D /* TimeActionTableViewCell.swift in Sources */,
 				042C288F1CE05D0900C70491 /* ConfigLabelView.swift in Sources */,
+				04324C0F1D0E88BE0051D3D1 /* DCCircleView.swift in Sources */,
 				0426D7461CC9D7B600183FA6 /* Device.swift in Sources */,
 				0441E3FA1CCFCA5B00A13CF9 /* ControlView.swift in Sources */,
 				0441E3FE1CCFD0C700A13CF9 /* SceneView.swift in Sources */,
 				043D53A41CC94BAE00672F26 /* DCPickerTextField.swift in Sources */,
 				04D267341CCA99D40001CCC8 /* DeviceCell.swift in Sources */,
-				042C28A01CE088E300C70491 /* DCHairlineView.swift in Sources */,
+				04324C111D0E88FE0051D3D1 /* DCBorderedView.swift in Sources */,
 				043D53941CC9475C00672F26 /* DCBorderedButton.swift in Sources */,
 				04F93D101CD259D2004829C2 /* IRCode.swift in Sources */,
+				04EAFE5F1D091E9600D86269 /* Reachability.swift in Sources */,
+				040F7E5F1D067B1D008EBEA7 /* ControlButton.swift in Sources */,
 				04BF65E61CE5AAA600BF47FE /* Control.swift in Sources */,
 				04214E921CC486B300F8FE0C /* ViewController.swift in Sources */,
 				049884501CD3827B00187B06 /* SignupView.swift in Sources */,
+				040F7E611D0684C9008EBEA7 /* CustomLabel.swift in Sources */,
 				04448BE91CF57A9500F1085D /* ActionTableViewController.swift in Sources */,
 				04214E901CC486B300F8FE0C /* AppDelegate.swift in Sources */,
 				043D53A21CC94BAE00672F26 /* DCMandatoryNumberTextField.swift in Sources */,
@@ -598,6 +590,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mac.thang.DemoMQTT;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 			};
 			name = Release;
 		};

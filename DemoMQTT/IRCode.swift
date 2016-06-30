@@ -8,10 +8,8 @@
 
 import Foundation
 
-class IRCode {
-    
-    static let UNKNOWN: Int = -1
-    static let NEC: Int = 0
-    static let SONY: Int = 1  
-    
+enum IRCode: Int {
+    case Unknown
+    case Nec
+    case Sony
 }

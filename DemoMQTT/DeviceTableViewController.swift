@@ -14,6 +14,8 @@ import CocoaMQTT
 
 class DeviceTableViewController: UITableViewController {
 
+    var selectedDeviceIndexPath: NSIndexPath!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Uncomment the following line to preserve selection between presentations
@@ -80,14 +82,73 @@ class DeviceTableViewController: UITableViewController {
         // Configure the cell...
         
         let device = DeviceArray.array[indexPath.row] as Device
-        print("\(device["Name"])")
+        //print("\(device["Name"])")
         cell.device = device
-        cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         
         return cell
     }
 
 
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        selectedDeviceIndexPath = indexPath
+        
+        let name = (tableView.cellForRowAtIndexPath(indexPath) as! DeviceCell).name.text
+        
+        let actionSheet = UIAlertController(title: name, message: "Choose your action", preferredStyle: .ActionSheet)
+        
+        let cancel = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in
+            
+        }
+        
+        let picture = UIAlertAction(title: "Change Icon", style: .Default) { (action) in
+            self.showLibrary()
+        }
+        
+        let changeUser = UIAlertAction(title: "Change User", style: .Default) { (action) in
+            let action = UIAlertController.alertControllerWithStringInput("Change User", message: "Enter the email of user you want to change", buttonTitle: "OK", handler: { (string) in
+                
+                guard let _email = string where _email != "" else {
+                    return
+                }
+                
+                let alert = UIAlertController(title: "Change User", message: "This action can't be undo, are you sure to change?", preferredStyle: .Alert)
+                
+                let ok = UIAlertAction(title: "OK", style:
+                    .Default, handler: { (action) in
+                        // get the current device and change email
+                })
+                
+                let cancel = UIAlertAction(title: "Cancel", style: .Default, handler: { (action) in
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                })
+                
+                alert.addAction(cancel)
+                alert.addAction(ok)
+                
+                self.presentViewController(alert, animated: true, completion: nil)
+                
+                
+            })
+            
+            self.presentViewController(action, animated: true, completion: nil)
+        }
+        
+        actionSheet.addAction(changeUser)
+        actionSheet.addAction(picture)
+        actionSheet.addAction(cancel)
+        
+        presentViewController(actionSheet, animated: true, completion: nil)
+    }
+    
+    func showLibrary() {
+        let cameraPicker = UIImagePickerController()
+        cameraPicker.delegate = self
+        cameraPicker.sourceType = .PhotoLibrary
+        
+        presentViewController(cameraPicker, animated: true, completion: nil)
+    }
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
@@ -133,4 +194,29 @@ class DeviceTableViewController: UITableViewController {
     }
     */
 
+}
+
+extension DeviceTableViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        
+        dismissViewControllerAnimated(true, completion: nil)
+        if let 🗻 = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            let cell = tableView.cellForRowAtIndexPath(selectedDeviceIndexPath) as! DeviceCell
+            
+            cell.icon.image = 🗻
+            let data = UIImageJPEGRepresentation(🗻, 0.3)
+            let imageFile = PFFile(name: "icon.png", data: data!)
+            
+            DeviceArray.array[selectedDeviceIndexPath.row]["Icon"] = imageFile
+            DeviceArray.array[selectedDeviceIndexPath.row].saveInBackground()
+        }
+        
+    }
+    
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    
 }

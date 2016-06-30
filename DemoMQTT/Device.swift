@@ -11,15 +11,10 @@ import Parse.PFObject_Subclass
 
 class Device: PFObject, PFSubclassing {
     
-    @NSManaged var name: String?
-    @NSManaged var deviceID: String?
-    @NSManaged var status: Bool
-    @NSManaged var iconFile: PFFile?
+    var icon: UIImage?
     
     convenience init(name: String, deviceID: String) {
         self.init()
-        self.deviceID = deviceID
-        self.name = name
     }
     
     override class func initialize() {

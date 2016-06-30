@@ -15,36 +15,56 @@ class SceneView: UICollectionViewController, UIGestureRecognizerDelegate {
     
     var sellectedSceneIndexPath: NSIndexPath!
     
+    var reachability: Reachability?
+    
+    override func viewWillAppear(animated: Bool) {
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.barTintColor = UIColor.colorFromHex("#53802d")
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
         self.collectionView?.backgroundColor = UIColor.colorFromHex("#d3ffce")
-        showLoadingHUD()
-        // Do any additional setup after loading the view.
-        //PFUser.logOut()
         
-        if PFUser.currentUser() != nil {
-            Async.background {
-                let longpress = UILongPressGestureRecognizer(target: self, action: #selector(self.handelLongpress(_:)))
-                
-                longpress.delegate = self
-                self.collectionView?.addGestureRecognizer(longpress)
-                //excute all of work before loading UI
-                DeviceArray.createArray()
-                SceneArray.createScene()
-                }.main {
-                    self.hideLoadingHUD()
-                    self.collectionView?.reloadData()
-            }
-            
-            print("")
+        // Do any additional setup after loading the view.
+        
+
+        
+        do {
+            reachability = try Reachability.reachabilityForInternetConnection()
+        } catch {
+            print("Unable to create reachability")
         }
         
-        
+        if let reachability = reachability {
+            if reachability.isReachable() {
+                Connection.instance.connect()
+                if PFUser.currentUser() != nil {
+                    showLoadingHUD()
+                    Async.background {
+                        let longpress = UILongPressGestureRecognizer(target: self, action: #selector(self.handelLongpress(_:)))
+                        
+                        longpress.delegate = self
+                        self.collectionView?.addGestureRecognizer(longpress)
+                        //excute all of work before loading UI
+                        DeviceArray.createArray()
+                        SceneArray.createScene()
+                        }.main {
+                            self.hideLoadingHUD()
+                            self.collectionView?.reloadData()
+                    }
+                    
+                    print("")
+                }
+            } else {
+                
+            }
+        }
         
     }
+    
     
     func handelLongpress(sender: UILongPressGestureRecognizer) {
         if sender.state == UIGestureRecognizerState.Ended {
@@ -151,24 +171,32 @@ class SceneView: UICollectionViewController, UIGestureRecognizerDelegate {
         
         if currentUser == nil {
             performSegueWithIdentifier("login", sender: nil)
+        } else {
+            if reachability?.currentReachabilityStatus == Reachability.NetworkStatus.NotReachable {
+                // present view controller here
+                let alert = UIAlertController(title: "No internet connection", message: "You must connect to the internet to use this app", preferredStyle: .Alert)
+                
+                alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+                
+                self.presentViewController(alert, animated: true, completion: nil)
+            }
         }
     }
     
     @IBAction func loginSuccess(segue: UIStoryboardSegue) {
         
     }
+
+    // collectionView data source
     
-    //1
     override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
     }
-    
-    //2
+
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return SceneArray.array.count
     }
-    
-    //3
+
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("SceneCell", forIndexPath: indexPath) as! SceneCell
         
@@ -185,6 +213,19 @@ class SceneView: UICollectionViewController, UIGestureRecognizerDelegate {
         
     }
     
+    // collectionView Delegate
+    
+    func collectionView(collectionView : UICollectionView,layout collectionViewLayout:UICollectionViewLayout,sizeForItemAtIndexPath indexPath:NSIndexPath) -> CGSize
+    {
+        let cellSize = CGSizeMake(260/320*UIScreen.mainScreen().bounds.width, 380/568*UIScreen.mainScreen().bounds.height)
+        return cellSize
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        
+        return CGSizeMake(0, 25/568*(UIScreen.mainScreen().bounds.height))
+        
+    }
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         //sellectedSceneIndex = indexPath.row
     }
@@ -192,8 +233,7 @@ class SceneView: UICollectionViewController, UIGestureRecognizerDelegate {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "show" {
         if let destinationViewController = segue.destinationViewController as? ControlView {
-            destinationViewController.hidesBottomBarWhenPushed = true
-            if let cell = sender as? SceneCell {
+                if let cell = sender as? SceneCell {
                 let index = collectionView?.indexPathForCell(cell)
                 if let index = index {
                     destinationViewController.currentScene = SceneArray.array[index.row]
@@ -213,8 +253,8 @@ extension SceneView: UIImagePickerControllerDelegate, UINavigationControllerDele
         if let 🗻 = info[UIImagePickerControllerOriginalImage] as? UIImage {
             let cell = collectionView!.cellForItemAtIndexPath(sellectedSceneIndexPath) as! SceneCell
             
-            cell.icon = 🗻
-            let data = UIImagePNGRepresentation(🗻)
+            cell.image.image = 🗻
+            let data = UIImageJPEGRepresentation(🗻, 0.5)
             let imageFile = PFFile(name: "icon.png", data: data!)
             
             SceneArray.array[sellectedSceneIndexPath.row]["Image"] = imageFile
