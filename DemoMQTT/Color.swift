@@ -10,5 +10,6 @@ import Foundation
 import UIKit
 
 class Color {
-    static var color: [UIColor] = [UIColor.redColor(), UIColor.blueColor(), UIColor.brownColor(), UIColor.greenColor(), UIColor.orangeColor(), UIColor.yellowColor(), UIColor.purpleColor()]
+    
+    static var color: [UIColor] = [UIColor.redColor(), UIColor.blueColor(), UIColor.brownColor(), UIColor.greenColor(), UIColor.orangeColor(), UIColor.yellowColor(), UIColor.purpleColor(), UIColor.cyanColor()]
 }

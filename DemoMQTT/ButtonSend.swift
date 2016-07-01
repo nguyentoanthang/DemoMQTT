@@ -26,10 +26,10 @@ class ButtonSend: UIButton {
     
     func customInit() {
         self.layer.borderWidth = 2.0
-        self.layer.borderColor = UIColor.redColor().CGColor
+        //self.layer.borderColor = UIColor.redColor().CGColor
         self.layer.cornerRadius = 7.0
         self.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        self.backgroundColor = UIColor.redColor()
+        //self.backgroundColor = UIColor.redColor()
         
         // http://stackoverflow.com/questions/4735623/uilabel-layer-cornerradius-negatively-impacting-performance
         layer.masksToBounds = false

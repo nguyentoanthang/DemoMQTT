@@ -61,6 +61,9 @@ class ControlView: UIViewController {
                     button.customInit()
                     button.setTitle("?", forState: .Normal)
                     button.frame = CGRectMake(object["X"] as! CGFloat, object["Y"] as! CGFloat, 50, 50)
+                    let colorIndex = object["Color"] as! Int
+                    button.backgroundColor = Color.color[colorIndex]
+                    button.layer.borderColor = Color.color[colorIndex].CGColor
                     
                     let longpress = UILongPressGestureRecognizer(target: self, action: #selector(ControlView.long(_:)))
                     
@@ -83,6 +86,8 @@ class ControlView: UIViewController {
                     label.textColor = UIColor.redColor()
                     label.text = "???"
                     label.frame = CGRectMake(object["X"] as! CGFloat, object["Y"] as! CGFloat, 50, 50)
+                    let colorIndex = object["Color"] as! Int
+                    label.textColor = Color.color[colorIndex]
                     
                     let longpress = UILongPressGestureRecognizer(target: self, action: #selector(ControlView.long(_:)))
                     
@@ -363,19 +368,30 @@ class ControlView: UIViewController {
             self.chooseColorView.hidden = true
         }
         
-        switch sender.tag {
-        case 100:
-            selectedButton?.backgroundColor = UIColor.redColor()
-            break
-        case 101:
-            selectedButton?.backgroundColor = UIColor.brownColor()
-            break
-        case 103:
-            selectedButton?.backgroundColor = UIColor.blueColor()
-            break
-        default:
-            break
+        if let view = self.temp as? ButtonSend {
+            view.backgroundColor = Color.color[sender.tag]
+            view.layer.borderColor = Color.color[sender.tag].CGColor
+            
+            let control = view.control
+            control?["Color"] = sender.tag
+            control?.saveInBackground()
+        } else {
+            let view = temp as! CustomLabel
+            view.textColor = Color.color[sender.tag]
+            
+            let control = view.control
+            control?["Color"] = sender.tag
+            control?.saveInBackground()
         }
+        
+        if (self.temp as? ButtonSend) != nil {
+            
+        } else {
+            
+        }
+        
+        
+        
     }
     
     // this function show a choose device View at bottom of screen
