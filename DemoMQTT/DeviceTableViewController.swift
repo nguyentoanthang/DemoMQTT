@@ -9,7 +9,6 @@
 import UIKit
 import MBProgressHUD
 import Parse.PFObject
-import Async
 import CocoaMQTT
 
 class DeviceTableViewController: UITableViewController {
@@ -18,6 +17,9 @@ class DeviceTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.navigationBar.barTintColor = UIColor.colorFromHex("#53802d")
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -57,8 +59,13 @@ class DeviceTableViewController: UITableViewController {
                     if let object = object {
                         object["email"] = PFUser.currentUser()?.email
                         object.saveInBackground()
-                        let device: Device? = object as? Device
-                        DeviceArray.array.append(device!)
+                        let device: Device! = object as! Device
+                        DeviceArray.array.append(device)
+                        if (device["Type"] as? Int) == 1 {
+                            DeviceArray.IRarray.append(device)
+                        } else {
+                            DeviceArray.IRarray.append(device)
+                        }
                         self.tableView.reloadData()
                         self.hideLoadingHUD()
                     }})

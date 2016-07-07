@@ -41,10 +41,7 @@ extension Connection: CocoaMQTTDelegate {
     
     func mqtt(mqtt: CocoaMQTT, didConnectAck ack: CocoaMQTTConnAck) {
         print("didConnect Ack")
-        if ack == .ACCEPT {
-            mqtt.subscribe("thang")
-            mqtt.ping()
-        }
+        
         
     }
     

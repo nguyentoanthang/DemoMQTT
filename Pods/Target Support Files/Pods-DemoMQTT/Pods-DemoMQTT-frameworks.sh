@@ -84,14 +84,14 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_framework "Pods-DemoMQTT/Async.framework"
+  install_framework "Pods-DemoMQTT/CZPicker.framework"
   install_framework "Pods-DemoMQTT/CocoaAsyncSocket.framework"
   install_framework "Pods-DemoMQTT/CocoaMQTT.framework"
   install_framework "Pods-DemoMQTT/MBProgressHUD.framework"
   install_framework "Pods-DemoMQTT/MSWeakTimer.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_framework "Pods-DemoMQTT/Async.framework"
+  install_framework "Pods-DemoMQTT/CZPicker.framework"
   install_framework "Pods-DemoMQTT/CocoaAsyncSocket.framework"
   install_framework "Pods-DemoMQTT/CocoaMQTT.framework"
   install_framework "Pods-DemoMQTT/MBProgressHUD.framework"

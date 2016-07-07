@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '40B176901215597F9945778C'
-               BlueprintName = 'AsyncSwift'
+               BlueprintIdentifier = 'FE28B8382828DFE5DD248189'
+               BlueprintName = 'CZPicker'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'Async.framework'>
+               BuildableName = 'CZPicker.framework'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

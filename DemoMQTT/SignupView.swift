@@ -9,7 +9,6 @@
 import UIKit
 import Parse.PFUser
 import MBProgressHUD
-import Async
 
 class SignupView: UIViewController {
 

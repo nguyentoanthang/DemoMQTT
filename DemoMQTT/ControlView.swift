@@ -8,10 +8,10 @@
 
 import UIKit
 import MBProgressHUD
-import Async
 import Parse
 import ParseUI
 import CocoaMQTT
+import CZPicker
 
 class ControlView: UIViewController {
 
@@ -21,11 +21,14 @@ class ControlView: UIViewController {
     var controlLabelView: [UILabel] = []
     var controlBtnView: [ButtonSend] = []
     weak var temp: UIView!
+    //weak var buttonTemp: ButtonSend!
     //weak var controlTemp: Control?
 
     @IBOutlet weak var chooseColorView: UIView!
     @IBOutlet weak var nameBtn: UITextField!
     @IBOutlet weak var typeName: UILabel!
+
+    @IBOutlet weak var learnBtn: DCRoundedButton!
     
     @IBOutlet weak var deviceIcon: PFImageView!
     
@@ -35,23 +38,29 @@ class ControlView: UIViewController {
     @IBOutlet weak var deviceView: UIView!
     weak var selectedButton: ButtonSend?
     // the scene contain controls
-    weak var currentScene: Scene!
+    var currentSceneID: String!
     
     // Label config view
     @IBOutlet weak var configLabel: UIView!
-    @IBOutlet weak var isTemp: UISwitch!
     
-    
-    
-    
-    
+    @IBOutlet weak var labelDeviceBtn: DCBorderedButton!
+    @IBOutlet weak var tempertureBtn: UIButton!
     @IBOutlet weak var configView: UIView!
+    
     @IBOutlet weak var controlView: UIView!
     let blackView = UIView()
 
+    /*************** flag and IRCODE receive **************/
+    var isReceive = false
+    var irCode: String?
+    
+    /********** CONFIG BUTTON **********/
+    
+    
+    
     func addControl() {
         let query = Control.query()
-        query?.whereKey("SceneId", equalTo: self.currentScene.objectId!)
+        query?.whereKey("SceneId", equalTo: self.currentSceneID)
         showLoadingHUD()
         query?.findObjectsInBackgroundWithBlock({ (objects: [PFObject]?, error: NSError?) in
             self.controls = objects as! [Control]
@@ -59,7 +68,7 @@ class ControlView: UIViewController {
                 if object["Type"] as! Int == 0 {
                     let button = ButtonSend(type: UIButtonType.System)
                     button.customInit()
-                    button.setTitle("?", forState: .Normal)
+                    button.setTitle(object["Name"] as? String, forState: .Normal)
                     button.frame = CGRectMake(object["X"] as! CGFloat, object["Y"] as! CGFloat, 50, 50)
                     let colorIndex = object["Color"] as! Int
                     button.backgroundColor = Color.color[colorIndex]
@@ -172,14 +181,21 @@ class ControlView: UIViewController {
     
     @IBAction func done(sender: AnyObject) {
         
-        // save control
-        selectedButton?.control!["Name"] = nameBtn.text
+        weak var control = (self.temp as! ButtonSend).control
         
-        if chooseDeviceBtn.titleLabel?.text != "???" {
-            selectedButton?.control!["DeviceId"] = chooseDeviceBtn.titleLabel?.text
+        if self.irCode != nil {
+            control!["IRCode"] = self.irCode
         }
         
-        selectedButton?.control?.saveInBackground()
+        // save control
+        control!["Name"] = nameBtn.text
+        
+        if chooseDeviceBtn.titleLabel?.text != "" {
+            control!["DeviceId"] = chooseDeviceBtn.titleLabel?.text
+        }
+        
+        control?.saveInBackground()
+        irCode = nil
         
         self.configView.transform = CGAffineTransformMakeScale(1, 1)
         self.configView.hidden = false
@@ -239,8 +255,9 @@ class ControlView: UIViewController {
             
             if temp.center.y < self.controlView.frame.origin.y {
                 
+                (temp as! CustomLabel).control = Control(type: 1, sceneID: self.currentSceneID)
                 // save control to parse.com
-                let control = Control(type: 1, sceneID: self.currentScene.objectId!)
+                let control = (temp as! CustomLabel).control
                 
                 let longpress = UILongPressGestureRecognizer(target: self, action: #selector(ControlView.long(_:)))
                 
@@ -251,17 +268,15 @@ class ControlView: UIViewController {
                 temp.userInteractionEnabled = true
                 (temp as! CustomLabel).control = control
                 
-                controlLabelView.append(temp as! UILabel)
-                
                 let y = (self.navigationController?.navigationBar.frame.origin.y)! + (self.navigationController?.navigationBar.frame.height)!
                 
                 if temp.frame.origin.y < y {
                     temp.center = CGPoint(x: temp.center.x, y: y + temp.frame.height/2)
                 }
                 
-                control["X"] = temp.frame.origin.x
-                control["Y"] = temp.frame.origin.y
-                control.saveInBackground()
+                control!["X"] = temp.frame.origin.x
+                control!["Y"] = temp.frame.origin.y
+                control!.saveInBackground()
                 
             } else {
                 temp.removeFromSuperview()
@@ -282,6 +297,8 @@ class ControlView: UIViewController {
             // create a shadow of this button
             button.frame = CGRectMake((sender.view?.frame.origin.x)!, self.controlView.frame.origin.y + (sender.view?.frame.origin.y)!, 45, 45)
             button.alpha = 0.5
+            button.layer.borderColor = UIColor.redColor().CGColor
+            button.backgroundColor = UIColor.redColor()
             self.view.addSubview(button)
             print("began")
             temp = button
@@ -309,8 +326,8 @@ class ControlView: UIViewController {
             if temp.center.y < self.controlView.frame.origin.y {
                 
                 // save control to parse.com
-                let control = Control(type: 0, sceneID: self.currentScene.objectId!)
-                
+                (temp as! ButtonSend).control = Control(type: 0, sceneID: self.currentSceneID)
+                let control = (temp as! ButtonSend).control
                 let longpress = UILongPressGestureRecognizer(target: self, action: #selector(ControlView.long(_:)))
                 
                 let pan = UIPanGestureRecognizer(target: self, action: #selector(self.pan(_:)))
@@ -323,9 +340,8 @@ class ControlView: UIViewController {
                 temp.addGestureRecognizer(tap)
                 temp.addGestureRecognizer(longpress)
                 temp.addGestureRecognizer(pan)
-                (temp as! ButtonSend).control = control
                 
-                controlBtnView.append(temp as! ButtonSend)
+                self.controlBtnView.append(temp as! ButtonSend)
                 
                 let y = (self.navigationController?.navigationBar.frame.origin.y)! + (self.navigationController?.navigationBar.frame.height)!
 
@@ -333,9 +349,9 @@ class ControlView: UIViewController {
                     temp.center = CGPoint(x: temp.center.x, y: y + temp.frame.height/2)
                 }
                 
-                control["X"] = temp.frame.origin.x
-                control["Y"] = temp.frame.origin.y
-                control.saveInBackground()
+                control!["X"] = temp.frame.origin.x
+                control!["Y"] = temp.frame.origin.y
+                control!.saveInBackground()
 
             } else {
                 temp.removeFromSuperview()
@@ -478,6 +494,16 @@ class ControlView: UIViewController {
     }
     
     func handelTap(sender: UITapGestureRecognizer) {
+        let control = (sender.view as! ButtonSend).control
+        
+        let irCode = control!["IRCode"] as? String
+        if irCode != nil {
+            Connection.instance.mqtt?.publish("example1", withString: irCode!)
+        } else {
+            let alert = UIAlertController.alertControllerWithTitle("Empty code", message: "This control don't have the IR code")
+            presentViewController(alert, animated: true, completion: nil)
+        }
+        
         print("Tap")
     }
     
@@ -503,8 +529,50 @@ class ControlView: UIViewController {
         let 💚 = UIAlertAction(title: "Config", style: .Default) { (action) in
             
             if (self.temp as? ButtonSend) != nil {
+                let control = (self.temp as! ButtonSend).control
+                if control!["IRCode"] != nil {
+                    let array = (control!["IRCode"] as! String).componentsSeparatedByString("/")
+                    self.typeName.text = IRCode.dic[array[0]]
+                } else {
+                    self.typeName.text = "UNKNOW"
+                }
+                
+                
+                var deviceID = (control!["DeviceId"] as? String)
+                if deviceID == nil {
+                    deviceID = "???"
+                    self.learnBtn.enabled = false
+                } else {
+                    self.learnBtn.enabled = true
+                }
+                let name = (control!["Name"] as? String)
+                
+                self.chooseDeviceBtn.setTitle(deviceID, forState: UIControlState.Normal)
+                self.nameBtn.text = name
+            
                 self.showConfigView(self.configView)
             } else {
+                let control = (self.temp as! CustomLabel).control
+                var deviceID = (control!["DeviceId"] as? String)
+                
+                if deviceID == nil {
+                    deviceID = "???"
+                    
+                }
+                
+                var isTemperture = ""
+                
+                if control!["isTemperture"] as? Bool == nil {
+                    isTemperture = "???"
+                } else if control!["isTemperture"] as! Bool == true {
+                    isTemperture = "Temperture"
+                } else {
+                    isTemperture = "Humidity"
+                }
+                
+                self.tempertureBtn.setTitle(isTemperture, forState: .Normal)
+                self.labelDeviceBtn.setTitle(deviceID, forState: .Normal)
+                
                 self.showConfigView(self.configLabel)
             }
             
@@ -518,7 +586,33 @@ class ControlView: UIViewController {
         }
         
         let 💙 = UIAlertAction(title: "Delete", style: .Destructive) { (action) in
-            self.selectedButton?.alpha = 0.5
+            
+            if let view = (self.temp as? ButtonSend) {
+                let control = view.control
+                
+                // remove control
+                control?.deleteInBackground()
+                let index = self.controls.indexOf(control!)
+                self.controls.removeAtIndex(index!)
+                
+                // remove view
+                let index1 = self.controlBtnView.indexOf(view)
+                self.controlBtnView[index1!].removeFromSuperview()
+                self.controlBtnView.removeAtIndex(index1!)
+            } else {
+                let control = (self.temp as! CustomLabel).control
+                
+                // remove control
+                control?.deleteInBackground()
+                let index = self.controls.indexOf(control!)
+                self.controls.removeAtIndex(index!)
+                
+                // remove view
+                let index1 = self.controlLabelView.indexOf((self.temp as! CustomLabel))
+                self.controlLabelView[index1!].removeFromSuperview()
+                self.controlLabelView.removeAtIndex(index1!)
+            }
+            
         }
         
         let 💜 = UIAlertAction(title: "Choose Color", style: .Default) { (acion) in
@@ -615,10 +709,132 @@ class ControlView: UIViewController {
     
     @IBAction func LearnIRCode(sender: AnyObject) {
         Connection.instance.mqtt?.publish("example1", withString: "first publish")
+        showLoadingHUD()
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) { 
+            
+            while self.irCode == nil {
+                
+            }
+            
+            // process IRcode
+            let array = self.irCode?.componentsSeparatedByString("/")
+            
+            
+            dispatch_async(dispatch_get_main_queue(), { 
+                // update UI
+                self.hideLoadingHUD()
+                self.typeName.text = IRCode.dic[array![0]]
+            })
+        }
     }
+    
+    
+    @IBAction func showChooseList(sender: UIButton) {
+        let dialog = CZPickerView(headerTitle: "Choose temperture or humidity", cancelButtonTitle: "Cancel", confirmButtonTitle: "OK")
+        
+        dialog.delegate = self
+        dialog.dataSource = self
+        dialog.needFooterView = true
+        dialog.show()
+    }
+    
+    
+    @IBAction func doneConfigLabel(sender: AnyObject) {
+        
+        let control = (temp as! CustomLabel).control
+        
+        if tempertureBtn.titleLabel?.text == "Temperture" {
+            control!["isTemperture"] = true
+        } else if tempertureBtn.titleLabel?.text == "Humidity"{
+            control!["isTemperture"] = false
+        } else {
+            
+        }
+        
+        if self.labelDeviceBtn.titleLabel?.text != "???" {
+            control!["DeviceId"] = labelDeviceBtn.titleLabel?.text
+        }
+        
+        control!.saveInBackground()
+        
+        if isChooseDevice {
+            isChooseDevice = false
+            UIView.animateWithDuration(0.2, animations: {
+                self.blackView.alpha = 0.0
+                self.configLabel.transform = CGAffineTransformMakeScale(0.1, 0.1)
+                self.deviceView.frame = CGRectMake(0, UIScreen.mainScreen().bounds.size.height, UIScreen.mainScreen().bounds.size.width, 200)}, completion: {conplete in
+                    self.deviceView.hidden = true
+                    self.configLabel.hidden = true
+                    self.blackView.removeFromSuperview()})
+        } else {
+            UIView.animateWithDuration(0.2, animations: {
+                self.blackView.alpha = 0.0
+                self.configLabel.transform = CGAffineTransformMakeScale(0.1, 0.1)}, completion: {conplete in
+                    self.configLabel.hidden = true
+                    self.blackView.removeFromSuperview()})
+        }
+        
+    }
+    
+    
+    @IBAction func cancelConfigLabel(sender: AnyObject) {
+        
+        if isChooseDevice {
+            isChooseDevice = false
+            UIView.animateWithDuration(0.2, animations: {
+                self.blackView.alpha = 0.0
+                self.configLabel.transform = CGAffineTransformMakeScale(0.1, 0.1)
+                self.deviceView.frame = CGRectMake(0, UIScreen.mainScreen().bounds.size.height, UIScreen.mainScreen().bounds.size.width, 200)}, completion: {conplete in
+                    self.deviceView.hidden = true
+                    self.configLabel.hidden = true
+                    self.blackView.removeFromSuperview()})
+        } else {
+            UIView.animateWithDuration(0.2, animations: {
+                self.blackView.alpha = 0.0
+                self.configLabel.transform = CGAffineTransformMakeScale(0.1, 0.1)}, completion: {conplete in
+                    self.configLabel.hidden = true
+                    self.blackView.removeFromSuperview()})
+        }
+        
+    }
+    
     
 }
 
+extension ControlView: CZPickerViewDelegate, CZPickerViewDataSource {
+    
+    func czpickerView(pickerView: CZPickerView!, imageForRow row: Int) -> UIImage! {
+        return nil
+    }
+    
+    func numberOfRowsInPickerView(pickerView: CZPickerView!) -> Int {
+        return 2
+    }
+    
+    func czpickerView(pickerView: CZPickerView!, titleForRow row: Int) -> String! {
+        if row == 0 {
+            return "Temperture"
+        } else {
+            return "Humidity"
+        }
+    }
+    
+    func czpickerView(pickerView: CZPickerView!, didConfirmWithItemAtRow row: Int) {
+        if row == 0 {
+            tempertureBtn.setTitle("Temperture", forState: .Normal)
+            let control = (temp as! CustomLabel).control
+            
+            control!["isTemperture"] = true
+            control?.saveInBackground()
+        } else {
+            tempertureBtn.setTitle("Humidity", forState: .Normal)
+            
+            let control = (temp as! CustomLabel).control
+            control!["isTemperture"] = false
+            control?.saveInBackground()
+        }
+    }
+}
 
 extension ControlView: UIGestureRecognizerDelegate {
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
@@ -644,6 +860,7 @@ extension ControlView: UIPickerViewDataSource, UIPickerViewDelegate {
         
         let device = DeviceArray.IRarray[row]
         chooseDeviceBtn.setTitle(device["DeviceId"] as? String, forState: UIControlState.Normal)
+        labelDeviceBtn.setTitle(device["DeviceId"] as? String, forState: UIControlState.Normal)
         
         if let file = device["Icon"] as? PFFile {
             deviceIcon.file = file
@@ -654,7 +871,7 @@ extension ControlView: UIPickerViewDataSource, UIPickerViewDelegate {
         
         deviceName.text = device["Name"] as? String
         
-        print(self.configView.frame)
+        self.learnBtn.enabled = true
     }
     
 }
@@ -679,6 +896,25 @@ extension ControlView: CocoaMQTTDelegate {
     
     func mqtt(mqtt: CocoaMQTT, didReceiveMessage message: CocoaMQTTMessage, id: UInt16 ) {
         print("receive message on ControlView")
+        
+        if let view = temp as? ButtonSend {
+            let deviceId = view.control!["DeviceId"] as! String
+            
+            let topicIr = deviceId + "/input"
+            if message.topic == topicIr {
+                irCode = message.string
+            }
+        } else {
+            let view = (temp as! CustomLabel)
+            let deviceId = view.control!["DeviceId"] as! String
+            let topicTemp = deviceId + "/temp"
+            
+            if message.topic == topicTemp {
+                
+            } else {
+                
+            }
+        }
     }
     
     func mqtt(mqtt: CocoaMQTT, didSubscribeTopic topic: String) {

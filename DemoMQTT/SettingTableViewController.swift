@@ -50,6 +50,12 @@ class SettingTableViewController: UITableViewController {
         return 30.0
     }
     
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if indexPath.section == 3 {
+            
+        }
+    }
+    
     // MARK: - Table view data source
     /*
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {

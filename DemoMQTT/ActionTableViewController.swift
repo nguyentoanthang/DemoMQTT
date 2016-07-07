@@ -7,13 +7,16 @@
 //
 
 import UIKit
+import Parse.PFUser
+import MBProgressHUD
 
 class ActionTableViewController: UITableViewController {
 
     var selectedIndexPath: NSIndexPath?
     
-    
     var actions: [TimeAction] = []
+    
+    var dataBack: String?
     
     @IBAction func addAction(sender: UIBarButtonItem) {
         
@@ -23,7 +26,9 @@ class ActionTableViewController: UITableViewController {
                 return
             }
             
-            var action = TimeAction(name: _name, time: "00:00 AM")
+            let action = TimeAction(name: _name, time: "00:00 AM", deviceID: "", email: (PFUser.currentUser()?.email)!)
+            
+            action.saveInBackground()
             
             self.actions.append(action)
             
@@ -35,9 +40,19 @@ class ActionTableViewController: UITableViewController {
         
     }
     
+    private func showLoadingHUD() {
+        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        hud.labelText = "Loading..."
+    }
+    
+    private func hideLoadingHUD() {
+        MBProgressHUD.hideHUDForView(self.view, animated: true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        action()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -45,6 +60,18 @@ class ActionTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
+    func action() {
+        let query = TimeAction.query()
+        query?.whereKey("Email", equalTo: (PFUser.currentUser()?.email)!)
+        
+        showLoadingHUD()
+        query?.findObjectsInBackgroundWithBlock({ (object: [PFObject]?, error: NSError?) in
+            self.actions.appendContentsOf(object as! [TimeAction])
+            self.tableView.reloadData()
+            self.hideLoadingHUD()
+        })
+    }
+    
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
@@ -76,17 +103,27 @@ class ActionTableViewController: UITableViewController {
         
         let action = actions[indexPath.row]
 
-        cell.name.text = action.name
+        cell.name.text = action["Name"] as? String
         cell.timeBtn.tag = indexPath.row
         cell.setBtn.tag = indexPath.row
         
-        cell.timeBtn.setTitle(action.time, forState: .Normal)
+        cell.timeBtn.setTitle(action["Time"] as? String, forState: .Normal)
         cell.setBtn.addTarget(self, action: #selector(ActionTableViewController.setTime(_:)), forControlEvents: .TouchUpInside)
         
-        cell.timeBtn.addTarget(self, action: #selector(ActionTableViewController.chooseTime(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        cell.timeBtn.addTarget(self, action: #selector(ActionTableViewController.chooseTime(_:)), forControlEvents: .TouchUpInside)
         
         cell.icon.layer.cornerRadius = cell.icon.frame.width/2
         cell.icon.clipsToBounds = true
+        print(indexPath.row)
+        print(indexPath.section)
+        if let file = action["icon"] as? PFFile {
+            print("file")
+            cell.icon.file = file
+            cell.icon.loadInBackground()
+        } else {
+            cell.icon.image = nil
+            cell.icon.backgroundColor = UIColor.grayColor()
+        }
         // Configure the cell...
 
         return cell
@@ -99,9 +136,25 @@ class ActionTableViewController: UITableViewController {
         let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: sender.tag, inSection: 0)) as!TimeActionTableViewCell
         
         let time = dateFortmater.stringFromDate(cell.timePicker.date)
+        let index = cell.devicePicker.selectedRowInComponent(0)
         
         cell.timeBtn.setTitle(time, forState: .Normal)
-        actions[sender.tag].time = time
+        
+        let device = DeviceArray.IRarray[index]
+        if let file = device["Icon"] as? PFFile {
+            cell.icon.file = file
+            actions[sender.tag]["icon"] = file
+            cell.icon.loadInBackground()
+        } else {
+            cell.icon.image = nil
+            cell.icon.backgroundColor = UIColor.grayColor()
+        }
+        
+        
+        actions[sender.tag]["Time"] = time
+        actions[sender.tag]["DeviceId"] = DeviceArray.IRarray[index]["DeviceId"] as! String
+        
+        actions[sender.tag].saveInBackground()
         
         //cell.timeBtn.titleLabel?.text = dateFortmater.stringFromDate(cell.timePicker.date)
     }
@@ -112,6 +165,8 @@ class ActionTableViewController: UITableViewController {
     }
     
     func chooseTime(sender: UIButton) {
+        
+        print(sender.tag)
         
         let previousIndexPath = selectedIndexPath
         
@@ -145,8 +200,17 @@ class ActionTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        (cell as! TimeActionTableViewCell).ignoreFrameChanges()
+        let actionCell = (cell as! TimeActionTableViewCell)
+        
+        actionCell.ignoreFrameChanges()
+        if actionCell.icon != nil {
+            actionCell.icon.loadInBackground()
+        } else {
+            actionCell.icon.image = nil
+            actionCell.icon.backgroundColor = UIColor.grayColor()
+        }
         print("remove")
+        
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -155,6 +219,21 @@ class ActionTableViewController: UITableViewController {
         } else {
             return TimeActionTableViewCell.defaultHeight
         }
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "addAction" {
+            if let destinationViewController = segue.destinationViewController as? AddActionViewController {
+                let cell = sender as? TimeActionTableViewCell
+                let indexPath = tableView.indexPathForCell(cell!)
+                
+                destinationViewController.deviceID = actions[(indexPath?.row)!]["DeviceId"] as? String
+            }
+        }
+    }
+    
+    @IBAction func doneAction(segue: UIStoryboardSegue) {
+        
     }
     
     /*

@@ -11,8 +11,9 @@ import Parse.PFUser
 
 class DeviceArray {
     
-    static var array: [Device] = []
-    static var IRarray: [Device] = []
+    static var array: [Device] = [Device]()
+    static var IRarray: [Device] = [Device]()
+    static var DHTArray: [Device] = [Device]()
     
     static func createArray() {
         let query = Device.query()
@@ -21,10 +22,15 @@ class DeviceArray {
         do {
             let objects: [PFObject]? = try query?.findObjects()
             if let objects = objects {
-                let devices: [Device]? = objects as? [Device]
-                array.appendContentsOf(devices!)
-                let arr = array.filter({device in (device["Type"] as? Int) == 1 })
-                IRarray.appendContentsOf(arr)
+                let arr: [Device]! = objects as? [Device]
+                
+                array.appendContentsOf(arr)
+                
+                let arr1 = array.filter({($0["Type"] as? Int) == 1 })
+                let arr2 = array.filter({($0["Type"] as? Int) == 0})
+            
+                DHTArray.appendContentsOf(arr2)
+                IRarray.appendContentsOf(arr1)
                 print("")
             }
         } catch {

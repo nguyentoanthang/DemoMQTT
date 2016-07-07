@@ -5,7 +5,7 @@ use_frameworks!
 
 target 'DemoMQTT' do
 pod 'CocoaMQTT'
-pod 'AsyncSwift'
+pod 'CZPicker'
 pod 'MBProgressHUD', '~> 0.9.0'
 end
 

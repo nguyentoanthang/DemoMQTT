@@ -10,12 +10,8 @@ import Foundation
 
 class IRCode {
     
-    static var UNKNOWN      = -1
-    static var UNUSED       =  0
-    static var RC5          =  1
-    static var RC6          =  2
-    static var NEC          =  3
-    static var SONY         =  4
+    static let dic: [String: String] = ["-1": "UNKNOW", "0": "UNUSED", "1": "RC5", "2": "RC6", "3": "NEC", "4": "SONY"]
+    
     static var PANASONIC    =  5
     static var JVC          =  6
     static var SAMSUNG      =  7

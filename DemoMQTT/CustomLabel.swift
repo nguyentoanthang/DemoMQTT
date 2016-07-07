@@ -10,7 +10,7 @@ import UIKit
 
 class CustomLabel: UILabel {
 
-    weak var control: Control?
+    var control: Control?
     
     override init(frame: CGRect) {
         super.init(frame: frame)

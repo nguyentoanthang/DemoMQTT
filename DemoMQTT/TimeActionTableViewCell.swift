@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ParseUI
 
 class TimeActionTableViewCell: UITableViewCell {
 
@@ -17,7 +18,7 @@ class TimeActionTableViewCell: UITableViewCell {
     @IBOutlet weak var setBtn: DCBorderedButton!
     
     @IBOutlet weak var devicePicker: UIPickerView!
-    @IBOutlet weak var icon: UIImageView!
+    @IBOutlet weak var icon: PFImageView!
     class var expandedHeight: CGFloat {
         get { return 245}
     }
@@ -29,6 +30,7 @@ class TimeActionTableViewCell: UITableViewCell {
     func checkHeight() {
         timePicker.hidden = (frame.size.height < TimeActionTableViewCell.expandedHeight)
         setBtn.hidden = (frame.size.height < TimeActionTableViewCell.expandedHeight)
+        
         
         if frame.size.height == TimeActionTableViewCell.defaultHeight {
             self.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
@@ -50,6 +52,7 @@ class TimeActionTableViewCell: UITableViewCell {
             removeObserver(self, forKeyPath: "frame")
             isObserver = false
         }
+        
     }
     
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {

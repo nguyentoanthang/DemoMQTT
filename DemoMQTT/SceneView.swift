@@ -8,8 +8,8 @@
 
 import UIKit
 import Parse.PFUser
-import Async
 import MBProgressHUD
+import CocoaMQTT
 
 class SceneView: UICollectionViewController, UIGestureRecognizerDelegate {
     
@@ -27,7 +27,7 @@ class SceneView: UICollectionViewController, UIGestureRecognizerDelegate {
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
         self.collectionView?.backgroundColor = UIColor.colorFromHex("#d3ffce")
-        
+        Connection.instance.mqtt?.delegate = self
         // Do any additional setup after loading the view.
         
 
@@ -40,7 +40,7 @@ class SceneView: UICollectionViewController, UIGestureRecognizerDelegate {
         
         if let reachability = reachability {
             if reachability.isReachable() {
-                Connection.instance.connect()
+                
                 if PFUser.currentUser() != nil {
                     showLoadingHUD()
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), { 
@@ -51,6 +51,7 @@ class SceneView: UICollectionViewController, UIGestureRecognizerDelegate {
                         //excute all of work before loading UI
                         DeviceArray.createArray()
                         SceneArray.createScene()
+                        Connection.instance.connect()
                         dispatch_async(dispatch_get_main_queue(), { 
                             self.hideLoadingHUD()
                             self.collectionView?.reloadData()
@@ -249,12 +250,71 @@ class SceneView: UICollectionViewController, UIGestureRecognizerDelegate {
                 if let cell = sender as? SceneCell {
                 let index = collectionView?.indexPathForCell(cell)
                 if let index = index {
-                    destinationViewController.currentScene = SceneArray.array[index.row]
+                    destinationViewController.currentSceneID = SceneArray.array[index.row].objectId
                 }
             }
             
             }
         }
+    }
+}
+
+extension SceneView: CocoaMQTTDelegate {
+    
+    func mqtt(mqtt: CocoaMQTT, didConnect host: String, port: Int) {
+        print("didConnect \(host):\(port)")
+    }
+    
+    func mqtt(mqtt: CocoaMQTT, didConnectAck ack: CocoaMQTTConnAck) {
+        print("didConnect Ack")
+        if ack == .ACCEPT {
+            for device in DeviceArray.IRarray {
+                mqtt.subscribe((device["DeviceId"] as! String) + "/input")
+            }
+            
+            for device in DeviceArray.DHTArray {
+                mqtt.subscribe((device["DeviceId"] as! String) + "/temp")
+                mqtt.subscribe((device["DeviceId"] as! String) + "/humi")
+            }
+            mqtt.ping()
+        }
+        
+    }
+    
+    func mqtt(mqtt: CocoaMQTT, didPublishMessage message: CocoaMQTTMessage, id: UInt16) {
+        print("didPublishMessage with message: \(message.string)")
+    }
+    
+    func mqtt(mqtt: CocoaMQTT, didPublishAck id: UInt16) {
+        print("didPublishAck with id: \(id)")
+    }
+    
+    func mqtt(mqtt: CocoaMQTT, didReceiveMessage message: CocoaMQTTMessage, id: UInt16 ) {
+        print("didReceivedMessage: \(message.string!) with id \(id) in topic \(message.topic)")
+    }
+    
+    func mqtt(mqtt: CocoaMQTT, didSubscribeTopic topic: String) {
+        print("didSubscribeTopic to \(topic)")
+    }
+    
+    func mqtt(mqtt: CocoaMQTT, didUnsubscribeTopic topic: String) {
+        print("didUnsubscribeTopic to \(topic)")
+    }
+    
+    func mqttDidPing(mqtt: CocoaMQTT) {
+        print("didPing")
+    }
+    
+    func mqttDidReceivePong(mqtt: CocoaMQTT) {
+        _console("didReceivePong")
+    }
+    
+    func mqttDidDisconnect(mqtt: CocoaMQTT, withError err: NSError?) {
+        _console("mqttDidDisconnect")
+    }
+    
+    func _console(info: String) {
+        print("Delegate: \(info)")
     }
 }
 
