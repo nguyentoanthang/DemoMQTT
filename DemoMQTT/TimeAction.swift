@@ -17,6 +17,7 @@ class TimeAction: PFObject, PFSubclassing{
         self["DeviceId"] = deviceID
         self["Time"] = time
         self["Email"] = email
+        self["Active"] = false
     }
     
     override class func initialize() {

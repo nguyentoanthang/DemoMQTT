@@ -18,7 +18,7 @@ class SceneView: UICollectionViewController, UIGestureRecognizerDelegate {
     var reachability: Reachability?
     
     override func viewWillAppear(animated: Bool) {
-        
+        print("view will appear")
     }
     
     override func viewDidLoad() {
@@ -57,20 +57,6 @@ class SceneView: UICollectionViewController, UIGestureRecognizerDelegate {
                             self.collectionView?.reloadData()
                         })
                     })
-//                    Async.background {
-//                        let longpress = UILongPressGestureRecognizer(target: self, action: #selector(self.handelLongpress(_:)))
-//                        
-//                        longpress.delegate = self
-//                        self.collectionView?.addGestureRecognizer(longpress)
-//                        //excute all of work before loading UI
-//                        DeviceArray.createArray()
-//                        SceneArray.createScene()
-//                        }.main {
-//                            self.hideLoadingHUD()
-//                            self.collectionView?.reloadData()
-//                    }
-//                    
-//                    print("")
                 }
             } else {
                 
@@ -197,7 +183,27 @@ class SceneView: UICollectionViewController, UIGestureRecognizerDelegate {
         }
     }
     
+    
+    
     @IBAction func loginSuccess(segue: UIStoryboardSegue) {
+        print("login success")
+        if PFUser.currentUser() != nil {
+            showLoadingHUD()
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {
+                let longpress = UILongPressGestureRecognizer(target: self, action: #selector(self.handelLongpress(_:)))
+                
+                longpress.delegate = self
+                self.collectionView?.addGestureRecognizer(longpress)
+                //excute all of work before loading UI
+                DeviceArray.createArray()
+                SceneArray.createScene()
+                Connection.instance.connect()
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.hideLoadingHUD()
+                    self.collectionView?.reloadData()
+                })
+            })
+        }
         
     }
 

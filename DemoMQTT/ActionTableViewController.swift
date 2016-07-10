@@ -14,7 +14,8 @@ class ActionTableViewController: UITableViewController {
 
     var selectedIndexPath: NSIndexPath?
     
-    var actions: [TimeAction] = []
+    var actions: [TimeAction] = [TimeAction]()
+    var selectedAction: TimeAction?
     
     var dataBack: String?
     
@@ -53,6 +54,10 @@ class ActionTableViewController: UITableViewController {
         super.viewDidLoad()
         
         action()
+        
+        let long = UILongPressGestureRecognizer(target: self, action: #selector(ActionTableViewController.long(_:)))
+        
+        self.tableView.addGestureRecognizer(long)
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -60,6 +65,62 @@ class ActionTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
+    func long(sender: UILongPressGestureRecognizer) {
+        
+        if sender.state == UIGestureRecognizerState.Began {
+            let actionSheet = UIAlertController(title: "Action", message: "Choose your action", preferredStyle: .ActionSheet)
+            
+            let delete = UIAlertAction(title: "Delete", style: .Destructive) { (action) in
+                // delete action
+            }
+            
+            let cancel = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+            
+            
+            var isActive: Bool = false
+            let point = sender.locationInView(self.tableView)
+            
+            if let indexPath = self.tableView.indexPathForRowAtPoint(point) {
+                
+                isActive = actions[indexPath.row]["Active"] as! Bool
+            }
+            
+            let title: String
+            if isActive {
+                title = "Deactive"
+            } else {
+                title = "Active"
+            }
+            
+            let active = UIAlertAction(title: title, style: .Default) { (action) in
+                
+                let indexPath = self.tableView.indexPathForRowAtPoint(point)
+                let cell = self.tableView.cellForRowAtIndexPath(indexPath!) as? TimeActionTableViewCell
+                
+                if isActive {
+                    self.actions[indexPath!.row]["Active"] = false
+                    
+                    cell!.timeBtn.setTitleColor(UIColor.grayColor(), forState: .Normal)
+                } else {
+                    // active action
+                    
+                    self.actions[indexPath!.row]["Active"] = true
+                    cell!.timeBtn.setTitleColor(UIColor.greenColor(), forState: .Normal)
+                }
+                
+                self.actions[indexPath!.row].saveInBackground()
+                
+            }
+            
+            actionSheet.addAction(active)
+            actionSheet.addAction(delete)
+            actionSheet.addAction(cancel)
+            
+            presentViewController(actionSheet, animated: true, completion: nil)
+        }
+        
+    }
+    
     func action() {
         let query = TimeAction.query()
         query?.whereKey("Email", equalTo: (PFUser.currentUser()?.email)!)
@@ -114,10 +175,14 @@ class ActionTableViewController: UITableViewController {
         
         cell.icon.layer.cornerRadius = cell.icon.frame.width/2
         cell.icon.clipsToBounds = true
-        print(indexPath.row)
-        print(indexPath.section)
+        
+        if action["Active"] as! Bool == true {
+            cell.timeBtn.setTitleColor(UIColor.greenColor(), forState: .Normal)
+        } else {
+            cell.timeBtn.setTitleColor(UIColor.grayColor(), forState: .Normal)
+        }
+        
         if let file = action["icon"] as? PFFile {
-            print("file")
             cell.icon.file = file
             cell.icon.loadInBackground()
         } else {
@@ -161,7 +226,8 @@ class ActionTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-                
+        //selectedAction = actions[indexPath.row]
+        
     }
     
     func chooseTime(sender: UIButton) {
@@ -224,10 +290,16 @@ class ActionTableViewController: UITableViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "addAction" {
             if let destinationViewController = segue.destinationViewController as? AddActionViewController {
-                let cell = sender as? TimeActionTableViewCell
-                let indexPath = tableView.indexPathForCell(cell!)
                 
-                destinationViewController.deviceID = actions[(indexPath?.row)!]["DeviceId"] as? String
+                let cell = sender as? TimeActionTableViewCell
+                if let indexPath = tableView.indexPathForCell(cell!) {
+                    
+                    let object = actions[indexPath.row]
+                    destinationViewController.action = object
+                    
+                    destinationViewController.deviceID = actions[indexPath.row]["DeviceId"] as? String
+                }
+                
             }
         }
     }
@@ -235,6 +307,8 @@ class ActionTableViewController: UITableViewController {
     @IBAction func doneAction(segue: UIStoryboardSegue) {
         
     }
+    
+    
     
     /*
     // Override to support conditional editing of the table view.
@@ -271,15 +345,12 @@ class ActionTableViewController: UITableViewController {
     }
     */
 
-    /*
+
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
+    
+    
+    
 }
 
 extension ActionTableViewController: UIPickerViewDataSource, UIPickerViewDelegate {

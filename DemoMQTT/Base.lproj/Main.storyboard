@@ -788,7 +788,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9VO-wb-8Kx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1273" y="-52"/>
+            <point key="canvasLocation" x="1288" y="-60"/>
         </scene>
         <!--Add Action View Controller-->
         <scene sceneID="vpY-OG-tOz">
@@ -826,7 +826,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5xj-rN-Tz2" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="RbD-pD-cQO" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1683" y="-38"/>
+            <point key="canvasLocation" x="1710" y="-81"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="KVj-Aa-NSr">
@@ -1308,7 +1308,7 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Title" id="hKP-6i-wo9">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="dqr-iC-dKe">
+                        <barButtonItem key="rightBarButtonItem" title="Add" style="plain" id="dqr-iC-dKe">
                             <connections>
                                 <action selector="showView:" destination="pZU-JI-r4l" id="pQd-Hb-vOf"/>
                             </connections>
@@ -1316,6 +1316,7 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="addBtn" destination="dqr-iC-dKe" id="y8U-DH-oOt"/>
                         <outlet property="chooseColorView" destination="tNd-VX-raU" id="0wx-hC-fZH"/>
                         <outlet property="chooseDeviceBtn" destination="aZg-T5-mu2" id="yp5-eR-Wad"/>
                         <outlet property="configLabel" destination="hIe-Df-wRc" id="OA8-ZJ-cM9"/>

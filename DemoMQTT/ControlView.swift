@@ -50,8 +50,11 @@ class ControlView: UIViewController {
     @IBOutlet weak var controlView: UIView!
     let blackView = UIView()
 
+    @IBOutlet weak var addBtn: UIBarButtonItem!
+    
+    
     /*************** flag and IRCODE receive **************/
-    var isReceive = false
+    //var isReceive = false
     var irCode: String?
     
     /********** CONFIG BUTTON **********/
@@ -697,13 +700,28 @@ class ControlView: UIViewController {
     }
     
     @IBAction func showView(sender: AnyObject) {
-        controlView.frame = CGRectMake(0, UIScreen.mainScreen().bounds.size.height, UIScreen.mainScreen().bounds.size.width, controlView.frame.height)
-        controlView.hidden = false
-        self.view.addSubview(self.blackView)
-        self.view.bringSubviewToFront(controlView)
+        if isShow {
+            UIView.animateWithDuration(0.3, animations: { 
+                self.controlView.frame = CGRectMake(0, UIScreen.mainScreen().bounds.height, UIScreen.mainScreen().bounds.width, self.controlView.frame.height)
+                }, completion: { (complete) in
+                    if complete {
+                        self.controlView.hidden = true
+                    }
+            })
+            self.isShow = false
+            addBtn.title = "Add"
+        } else {
+            controlView.frame = CGRectMake(0, UIScreen.mainScreen().bounds.size.height, UIScreen.mainScreen().bounds.size.width, controlView.frame.height)
+            controlView.hidden = false
+            //self.view.addSubview(self.blackView)
+            self.view.bringSubviewToFront(controlView)
+            
+            UIView.animateWithDuration(0.3) {
+                self.controlView.frame = CGRectMake(0, 508, UIScreen.mainScreen().bounds.size.width, self.controlView.frame.height)
+            }
+            self.isShow = true
+            addBtn.title = "Done"
         
-        UIView.animateWithDuration(0.3) { 
-            self.controlView.frame = CGRectMake(0, 508, UIScreen.mainScreen().bounds.size.width, self.controlView.frame.height)
         }
     }
     
@@ -899,8 +917,8 @@ extension ControlView: CocoaMQTTDelegate {
         
         if let view = temp as? ButtonSend {
             let deviceId = view.control!["DeviceId"] as! String
-            
             let topicIr = deviceId + "/input"
+            
             if message.topic == topicIr {
                 irCode = message.string
             }

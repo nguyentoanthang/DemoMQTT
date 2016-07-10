@@ -29,21 +29,34 @@ class AddActionViewController: UIViewController {
     
     let distanceBetweenTowControl = 60
     
+    
+    
+    var action: TimeAction!
+    
+    var currentActionID: String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        addControl()
-//        for i in 0...10 {
-//            let button = UIButton(type: .System)
-//            button.backgroundColor = UIColor.redColor()
+        self.addControl()
+        //self.addChooseControlView()
+//        let query = TimeAction.query()
+//        
+//        query?.whereKey("objectId", equalTo: currentActionID!)
+//        
+//        query?.getFirstObjectInBackgroundWithBlock({ (object: PFObject?, error: NSError?) in
 //            
-//            button.frame = CGRectMake(40*CGFloat(i) + 10*(CGFloat(i) + 1), 10, 40, 40)
-//            self.controlView.addSubview(button)
-//        }
-//        self.controlView.contentSize = CGSize(width: 40*11 + 10*11, height: 47)
-        
-        // Do any additional setup after loading the view.
+//            self.action = object as! TimeAction
+//            
+//        })
+
+        //deviceID = currentAction!["DeviceId"] as? String
+
     }
 
+    override func viewDidAppear(animated: Bool) {
+        
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -59,12 +72,86 @@ class AddActionViewController: UIViewController {
     }
     
     
+    func addChooseControlView() {
+        
+        let objectID: [String]? = action["objectID"] as? [String]
+        let intervals: [String]? = action["TimeInterval"] as? [String]
+        let n: Int
+        
+        if objectID == nil {
+            
+        } else {
+            n = objectID!.count
+            
+            for i in 0...(n-1) {
+                
+                let id = objectID![i]
+                let button = ButtonSend(type: UIButtonType.System)
+                button.customInit()
+                button.backgroundColor = UIColor.redColor()
+                button.frame = CGRectMake(50*CGFloat(i) + CGFloat(distanceBetweenTowControl*i) + 20, 10, 50, 50)
+                
+                self.controlView.addSubview(button)
+                self.controlChoosedView.append(button)
+                
+                if i != 0 {
+                    let interval = UILabel()
+                    
+                    interval.frame.size = CGSize(width: 28, height: 22)
+                    interval.center = CGPoint(x: button.frame.origin.x - CGFloat(distanceBetweenTowControl/2), y: button.center.y)
+                    interval.text = intervals![i - 1]
+                    interval.textAlignment = .Center
+                    interval.sizeToFit()
+                    interval.userInteractionEnabled = true
+                    let tap = UITapGestureRecognizer(target: self, action: #selector(AddActionViewController.addInterval(_:)))
+                    interval.addGestureRecognizer(tap)
+                    self.controlView.addSubview(interval)
+                    self.intervalLabel.append(interval)
+                    
+                }
+                
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {
+                    
+                    var colorIndex = 0
+                    var name = ""
+                    
+                    for i in 0...(self.controlBtnView.count - 1) {
+                        
+                        if id == self.controlBtnView[i].control?.objectId {
+                            
+                            colorIndex = self.controlBtnView[i].control!["Color"] as! Int
+                            name = self.controlBtnView[i].control!["Name"] as! String
+                            button.control = self.controlBtnView[i].control
+                            
+                            break;
+                            
+                        }
+                    }
+                    
+                    dispatch_async(dispatch_get_main_queue(), {
+                        button.backgroundColor = Color.color[colorIndex]
+                        button.layer.borderColor = Color.color[colorIndex].CGColor
+                        
+                        button.setTitle(name, forState: .Normal)
+                    })
+                    
+                })
+            }
+        }
+        
+        
+        
+        
+    }
+    
     func addControl() {
         let query = Control.query()
         query?.whereKey("DeviceId", equalTo:deviceID!)
         showLoadingHUD()
         query?.findObjectsInBackgroundWithBlock({ (objects: [PFObject]?, error: NSError?) in
+            
             self.controls = objects as! [Control]
+            
             for object in self.controls {
                 if object["Type"] as! Int == 0 {
                     let button = ButtonSend(type: UIButtonType.System)
@@ -82,10 +169,12 @@ class AddActionViewController: UIViewController {
                     
                     self.controlBtnView.append(button)
                     self.view.addSubview(button)
+                    
                 } else {
                     
                 }
             }
+            self.addChooseControlView()
             self.hideLoadingHUD()
         })
     }
@@ -135,7 +224,7 @@ class AddActionViewController: UIViewController {
                 
                 temp.addGestureRecognizer(pan)
                 self.controlView.addSubview(temp)
-                
+                temp.control = (sender.view as! ButtonSend).control
                 self.controlChoosedView.append(temp)
                 
                 if index != 0 {
@@ -170,6 +259,7 @@ class AddActionViewController: UIViewController {
     }
     
     func addInterval(sender: UITapGestureRecognizer) {
+        
         let input = UIAlertController.alertControllerWithNumberInput("Interval Time", message: "Enter an interval between two control", buttonTitle: "OK") {
             intervalString in
             
@@ -197,13 +287,6 @@ class AddActionViewController: UIViewController {
             
             sender.setTranslation(CGPointZero, inView: self.view)
             
-//            if sender.view?.center.y > 89 {
-//                sender.view?.alpha = 0.5
-//                sender.view?.frame.size = CGSize(width: 45, height: 45)
-//            } else {
-//                sender.view?.alpha = 1.0
-//                sender.view?.frame.size = CGSize(width: 50, height: 50)
-//            }
         }
         
         if sender.state == UIGestureRecognizerState.Ended {
@@ -254,11 +337,44 @@ class AddActionViewController: UIViewController {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "addAction" {
+        
             if let des = segue.destinationViewController as? ActionTableViewController {
-                des.dataBack = "???"
+                
+                action.removeObjectForKey("objectID")
+                action.removeObjectForKey("TimeInterval")
+                let n = controlChoosedView.count
+                
+                var codeTosend = ""
+                
+                if n == 1 {
+                    codeTosend += controlChoosedView[0].control!["IRCode"] as! String
+                    codeTosend += "/"
+                    codeTosend += "0"
+                    
+                } else {
+                    for i in 0...(n-1) {
+                        
+                        action.addObject((controlChoosedView[i].control?.objectId)!, forKey: "objectID")
+                        if i == n - 1 {
+                            codeTosend += controlChoosedView[i].control!["IRCode"] as! String
+                            codeTosend += "/"
+                            codeTosend += "0"
+                        } else {
+                            codeTosend += controlChoosedView[i].control!["IRCode"] as! String
+                            codeTosend += "/"
+                            codeTosend += intervalLabel[i].text!
+                            codeTosend += "-"
+                            action.addObject(intervalLabel[i].text!, forKey: "TimeInterval")
+                        }
+                    }
+                }
+                
+                action["ExcuteCode"] = codeTosend
+                action.saveInBackground()
+                
+                des.dataBack = codeTosend
             }
-        }
+        
     }
     
     /*
