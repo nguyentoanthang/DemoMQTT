@@ -102,9 +102,54 @@ class SceneView: UICollectionViewController, UIGestureRecognizerDelegate {
             return
         }
         
+        let delete = UIAlertAction(title: "Delete", style: .Destructive) { (action) in
+            
+            // delete scene and all control of this scene
+            
+            
+            let confirm = UIAlertController(title: "Delete this scene", message: "This action can't be undo", preferredStyle: .Alert)
+            
+            let ok = UIAlertAction(title: "OK", style: .Default, handler: { (action) in
+                // delete
+                
+                let scene = SceneArray.array[self.sellectedSceneIndexPath.row]
+                
+                self.showLoadingHUD()
+                
+                let query = Control.query()
+                query?.whereKey("SceneId", equalTo: scene.objectId!)
+                
+                query?.findObjectsInBackgroundWithBlock({ (object: [PFObject]?, error: NSError?) in
+                    
+                    PFObject.deleteAllInBackground(object)
+                    
+                    scene.deleteInBackground()
+                    
+                    let index = SceneArray.array.indexOf(scene)
+                    
+                    SceneArray.array.removeAtIndex(index!)
+                    
+                    self.collectionView?.reloadData()
+                    self.hideLoadingHUD()
+                    
+                })
+                
+                
+            })
+            
+            let cancel = UIAlertAction(title: "No", style: .Default, handler: nil)
+            
+            confirm.addAction(cancel)
+            confirm.addAction(ok)
+            
+            self.presentViewController(confirm, animated: true, completion: nil)
+            
+        }
+        
         actionSheet.addAction(cancelAction)
         actionSheet.addAction(chooseAction)
         actionSheet.addAction(camera)
+        actionSheet.addAction(delete)
         
         presentViewController(actionSheet, animated: true) {
             

@@ -18,7 +18,7 @@ class SceneCell: UICollectionViewCell {
     var currentScene: Scene! {
         didSet {
             if currentScene["Image"] as? PFFile == nil {
-                
+                image.image = nil
             } else {
                 image.file = currentScene["Image"] as? PFFile
                 image.loadInBackground()
