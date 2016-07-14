@@ -112,6 +112,37 @@ class DeviceTableViewController: UITableViewController {
             self.showLibrary()
         }
         
+        let changeName = UIAlertAction(title: "Change Name", style: .Default) { (action) in
+            
+            let input = UIAlertController.alertControllerWithStringInput("Tên", message: "Nhập tên của module", buttonTitle: "Ok", handler: { (name) in
+                
+            })
+            
+            self.presentViewController(input, animated: true, completion: nil)
+        }
+        
+        actionSheet.addAction(changeName)
+        
+        if DeviceArray.array[indexPath.row]["Type"] as! Int == 0 {
+            
+            let interval = UIAlertAction(title: "Change Sample Time", style: .Default, handler: { (action) in
+                
+                let input = UIAlertController.alertControllerWithNumberInput("Sampling Time", message: "Enter the sampling time", buttonTitle: "Ok", handler: { (time) in
+                    
+                    var topic = DeviceArray.array[indexPath.row]["DeviceId"] as! String
+                    topic += "/output"
+                    
+                    Connection.instance.mqtt?.publish(topic, withString: time!)
+                    
+                })
+                
+                self.presentViewController(input, animated: true, completion: nil)
+                
+            })
+            
+            actionSheet.addAction(interval)
+        }
+        
         let changeUser = UIAlertAction(title: "Change User", style: .Default) { (action) in
             let action = UIAlertController.alertControllerWithStringInput("Change User", message: "Enter the email of user you want to change", buttonTitle: "OK", handler: { (string) in
                 

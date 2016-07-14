@@ -18,7 +18,7 @@ class ControlView: UIViewController {
     var isShow: Bool = false
     var isChooseDevice: Bool = false
     var controls: [Control] = [Control]()
-    var controlLabelView: [UILabel] = []
+    var controlLabelView: [CustomLabel] = []
     var controlBtnView: [ButtonSend] = []
     weak var temp: UIView!
     //weak var buttonTemp: ButtonSend!
@@ -279,6 +279,8 @@ class ControlView: UIViewController {
                 
                 control!["X"] = temp.frame.origin.x
                 control!["Y"] = temp.frame.origin.y
+                self.controls.append(control!)
+                self.controlLabelView.append(temp as! CustomLabel)
                 control!.saveInBackground()
                 
             } else {
@@ -354,6 +356,7 @@ class ControlView: UIViewController {
                 
                 control!["X"] = temp.frame.origin.x
                 control!["Y"] = temp.frame.origin.y
+                self.controls.append(control!)
                 control!.saveInBackground()
 
             } else {
@@ -442,7 +445,7 @@ class ControlView: UIViewController {
             })
         }
         
-        
+        self.picker.reloadAllComponents()
         
     }
     @IBAction func cancel(sender: AnyObject) {
@@ -766,11 +769,30 @@ class ControlView: UIViewController {
         } else if tempertureBtn.titleLabel?.text == "Humidity"{
             control!["isTemperture"] = false
         } else {
+            let alert = UIAlertController(title: "Name empty", message: "You must connect this control to data source", preferredStyle: .Alert)
             
+            let ok = UIAlertAction(title: "OK", style: .Default, handler: nil)
+            
+            alert.addAction(ok)
+            
+            self.presentViewController(alert, animated: true, completion: nil)
+            
+            return
         }
+        
         
         if self.labelDeviceBtn.titleLabel?.text != "???" {
             control!["DeviceId"] = labelDeviceBtn.titleLabel?.text
+        } else {
+            let alert = UIAlertController(title: "Device empty", message: "You must choose an device for this control", preferredStyle: .Alert)
+            
+            let ok = UIAlertAction(title: "OK", style: .Default, handler: nil)
+            
+            alert.addAction(ok)
+            
+            self.presentViewController(alert, animated: true, completion: nil)
+            
+            return
         }
         
         control!.saveInBackground()
@@ -867,29 +889,57 @@ extension ControlView: UIPickerViewDataSource, UIPickerViewDelegate {
     }
     
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return DeviceArray.IRarray.count
+        if let view = temp as? ButtonSend {
+            return DeviceArray.IRarray.count
+        } else {
+            return DeviceArray.DHTArray.count
+        }
+
     }
     
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return (DeviceArray.IRarray[row]["DeviceId"] as! String)
+        
+        if let view = temp as? ButtonSend {
+            return DeviceArray.IRarray[row]["DeviceId"] as! String
+        } else {
+            return DeviceArray.DHTArray[row]["DeviceId"] as! String
+        }
     }
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
-        let device = DeviceArray.IRarray[row]
-        chooseDeviceBtn.setTitle(device["DeviceId"] as? String, forState: UIControlState.Normal)
-        labelDeviceBtn.setTitle(device["DeviceId"] as? String, forState: UIControlState.Normal)
-        
-        if let file = device["Icon"] as? PFFile {
-            deviceIcon.file = file
-            deviceIcon.loadInBackground()
+        if let view = temp as? ButtonSend {
+            let device = DeviceArray.IRarray[row]
+            chooseDeviceBtn.setTitle(device["DeviceId"] as? String, forState: UIControlState.Normal)
+            labelDeviceBtn.setTitle(device["DeviceId"] as? String, forState: UIControlState.Normal)
+            
+            if let file = device["Icon"] as? PFFile {
+                deviceIcon.file = file
+                deviceIcon.loadInBackground()
+            } else {
+                deviceIcon.backgroundColor = UIColor.grayColor()
+            }
+            
+            deviceName.text = device["Name"] as? String
+            
+            self.learnBtn.enabled = true
         } else {
-            deviceIcon.backgroundColor = UIColor.grayColor()
+            let device = DeviceArray.DHTArray[row]
+            chooseDeviceBtn.setTitle(device["DeviceId"] as? String, forState: UIControlState.Normal)
+            labelDeviceBtn.setTitle(device["DeviceId"] as? String, forState: UIControlState.Normal)
+            
+            if let file = device["Icon"] as? PFFile {
+                deviceIcon.file = file
+                deviceIcon.loadInBackground()
+            } else {
+                deviceIcon.backgroundColor = UIColor.grayColor()
+            }
+            
+            deviceName.text = device["Name"] as? String
+            
+            self.learnBtn.enabled = true
         }
         
-        deviceName.text = device["Name"] as? String
-        
-        self.learnBtn.enabled = true
     }
     
 }
@@ -915,23 +965,47 @@ extension ControlView: CocoaMQTTDelegate {
     func mqtt(mqtt: CocoaMQTT, didReceiveMessage message: CocoaMQTTMessage, id: UInt16 ) {
         print("receive message on ControlView")
         
-        if let view = temp as? ButtonSend {
-            let deviceId = view.control!["DeviceId"] as! String
-            let topicIr = deviceId + "/input"
+        if message.topic.containsString("input") {
             
-            if message.topic == topicIr {
-                irCode = message.string
+            if let view = temp as? ButtonSend {
+                let deviceId = view.control!["DeviceId"] as! String
+                let topicIr = deviceId + "/input"
+                
+                if message.topic == topicIr {
+                    irCode = message.string
+                }
             }
+        
         } else {
-            let view = (temp as! CustomLabel)
-            let deviceId = view.control!["DeviceId"] as! String
-            let topicTemp = deviceId + "/temp"
             
-            if message.topic == topicTemp {
+            let controlSensor = self.controls.filter({($0["Type"] as! Int) == 1})
+            
+            for sensor in controlSensor {
                 
-            } else {
+                if let deviceId = sensor["DeviceId"] as? String {
+                    var topic = deviceId
+                    
+                    if sensor["isTemperture"] as! Bool == true {
+                        topic += "/temp"
+                    } else {
+                        topic += "/humi"
+                    }
+                    
+                    if message.topic == topic {
+                        
+                        let indexLabel = controlSensor.indexOf(sensor)
+                        
+                        self.controlLabelView[indexLabel!].text = message.string
+                        
+                    } else {
+                        
+                    }
+                }
+                
                 
             }
+            
+            
         }
     }
     

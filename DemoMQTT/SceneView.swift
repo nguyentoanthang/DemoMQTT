@@ -109,7 +109,7 @@ class SceneView: UICollectionViewController, UIGestureRecognizerDelegate {
             
             let confirm = UIAlertController(title: "Delete this scene", message: "This action can't be undo", preferredStyle: .Alert)
             
-            let ok = UIAlertAction(title: "OK", style: .Default, handler: { (action) in
+            let ok = UIAlertAction(title: "Yes", style: .Default, handler: { (action) in
                 // delete
                 
                 let scene = SceneArray.array[self.sellectedSceneIndexPath.row]
