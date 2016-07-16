@@ -102,19 +102,30 @@ class DeviceTableViewController: UITableViewController {
         
         let name = (tableView.cellForRowAtIndexPath(indexPath) as! DeviceCell).name.text
         
-        let actionSheet = UIAlertController(title: name, message: "Choose your action", preferredStyle: .ActionSheet)
+        let actionSheet = UIAlertController(title: name, message: "Chọn hành động", preferredStyle: .ActionSheet)
         
         let cancel = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in
             
         }
         
-        let picture = UIAlertAction(title: "Change Icon", style: .Default) { (action) in
+        let picture = UIAlertAction(title: "Đổi ảnh đại diện", style: .Default) { (action) in
             self.showLibrary()
         }
         
-        let changeName = UIAlertAction(title: "Change Name", style: .Default) { (action) in
+        let changeName = UIAlertAction(title: "Đổi tên", style: .Default) { (action) in
             
             let input = UIAlertController.alertControllerWithStringInput("Tên", message: "Nhập tên của module", buttonTitle: "Ok", handler: { (name) in
+                
+                guard let _name = name where _name != "" else {
+                    return
+                }
+                
+                let device = DeviceArray.array[indexPath.row]
+                
+                device["Name"] = _name
+                device.saveInBackground()
+                
+                self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
                 
             })
             
